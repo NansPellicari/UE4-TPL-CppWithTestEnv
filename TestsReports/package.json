@@ -1,0 +1,26 @@
+{
+    "name": "testsreports",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test:ue4": "node build-ue4-reports.js",
+        "test:gg": "node build-gg-reports.js",
+        "server:start": "pm2 start index.js",
+        "server:stop": "pm2 stop index.js",
+        "server:id": "pm2 id index.js",
+        "server:list": "pm2 list",
+        "server:clean": "pm2 delete all",
+        "postinstall": "bower install"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "bower": "^1.8.8",
+        "chalk": "^4.0.0",
+        "connect": "^3.7.0",
+        "serve-static": "^1.14.1",
+        "xml2json": "^0.12.0",
+        "xunit-viewer": "^6.2.1"
+    }
+}

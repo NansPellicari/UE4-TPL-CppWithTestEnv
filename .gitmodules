@@ -1,0 +1,3 @@
+[submodule "Plugins/GoogleTest"]
+    path = Plugins/GoogleTest
+    url = git@github.com:NansPellicari/UE4-GoogleTest.git

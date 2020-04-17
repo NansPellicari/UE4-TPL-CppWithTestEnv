@@ -1,0 +1,19 @@
+{
+	"FileVersion": 3,
+	"EngineAssociation": "",
+	"Category": "",
+	"Description": "",
+	"Modules": [
+		{
+			"Name": "GoogleTest",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		}
+	],
+	"Plugins": [],
+	"TargetPlatforms": [
+		"WindowsNoEditor",
+		"XboxOne",
+		"UWP64"
+	]
+}
