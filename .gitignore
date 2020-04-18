@@ -5,6 +5,7 @@ Content/StarterContent
 # Visual Code user specific files
 .vscode/*
 !.vscode/settings.sample.json
+/*.code-workspace
 
 # Compiled Object files
 *.slo
@@ -78,16 +79,10 @@ Plugins/*/Intermediate/*
 # Cache files for the editor to use
 DerivedDataCache/*
 
-# Files for unit test report
-Context/node_modules
-Context/bower_components
-Context/test
-Context/package-lock.json
-# It is retrieved from the Engine content
-Context/bower.json
 
-Metropolitesse.code-workspace
-
+# Specific TPL project files
+Config/Project.ini
+TestsReports/node_modules
 TestsReports/node_modules
 TestsReports/bower_components
 TestsReports/package-lock.json
