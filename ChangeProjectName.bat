@@ -3,18 +3,33 @@
 setlocal
 set ConfFile=Config\Project.ini
 
-for /f "delims=" %%a in ('PowerShell.exe -Command "%cd%\Scripts\GetConfig.ps1"') do (
+for /f "delims=" %%a in ('PowerShell.exe -Command "%cd%\Scripts\GetConfig.ps1 'UE4PATH'"') do (
     echo %%a
     set "UE4PATH=%%a"
 )
 
 set p1=MyProject
-set p2=NewProjectName
+set "p2="
 set p3=0
 
-if "%~1" neq "" (if "%~2" neq "" (set p1="%~1") else set p2="%~1")
-if "%~2" neq "" set p2="%~2"
-if "%~3" neq "" set p3="%~3"
+:loop1
+if "%1" neq "" (
+    if "%1"=="-f" (
+        set p3=1
+        shift
+        goto :loop1
+    )
+    if "%1" neq "" (
+        if "%p2%" == "" (
+            set p2=%1
+            shift
+            goto :loop1
+        ) else (
+            set p1=%p2%
+            set p2=%1
+        )
+    )
+)
 
 echo Clean project dirs
 FOR /d /r %%d IN ("Binaries","Build","Intermediate","Saved","TestsReports\node_modules","TestsReports\bower_components","TestsReports\reports\gg\","TestsReports\reports\ue4","TestsReports\coverage") DO @IF EXIST "%%d" rd /s /q "%%d"
@@ -25,9 +40,10 @@ PowerShell.exe -Command "& '%cd%\Scripts\RenameProject.ps1'" '%p1%' '%p2%' %p3%
 
 rem ## remove quotes
 set p2=%p2:"=%
-echo Rebuild project "%~dp0%p2%.uproject"
+set projectPath="%~dp0%p2%.uproject"
+echo Rebuild project "%projectPath%"
 pushd "%UE4PATH%\Engine\Binaries\DotNET\"
-UnrealBuildTool.exe -projectfiles -project="%~dp0%p2%.uproject" -game -rocket -progress
+UnrealBuildTool.exe -projectfiles -project="%projectPath%" -game -rocket -progress
 popd
 
 :fail

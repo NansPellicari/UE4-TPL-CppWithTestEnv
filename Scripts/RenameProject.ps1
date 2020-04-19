@@ -7,7 +7,7 @@ param(
 Write-Host "force? $force"
 
 $continue = "y"
-Write-Host "Will changes ""$FromName"" to ""$ToName"" files and directory names." -ForegroundColor Yellow
+Write-Host "1- Will changes ""$FromName"" to ""$ToName"" files and directory names." -ForegroundColor Yellow
 
 if (!$force) {
     $continue = Read-Host -Prompt 'Are you sure to continue? [y/n]'
@@ -20,7 +20,7 @@ if ($continue -eq "y") {
 
 
 $continue = "y"
-Write-Host "Will replace ""$FromName"" occurences to ""$ToName"" in all files recursively in ./Source/ ./Config/ dir." -ForegroundColor Yellow
+Write-Host "2- Will replaces ""$FromName"" occurences to ""$ToName"" in all files recursively in ./Source/ ./Config/ dir." -ForegroundColor Yellow
 
 if (!$force) {
     $continue = Read-Host -Prompt 'Are you sure to continue? [y/n]'
@@ -40,7 +40,7 @@ if ($continue -eq "y") {
 }
 
 $continue = "y"
-Write-Host "Will replace ""$FromName"" occurences to ""$ToName"" in all files at the root dir & TestsReports/ (not recursive)." -ForegroundColor Yellow
+Write-Host "3- Will replaces ""$FromName"" occurences to ""$ToName"" in all files at the root dir & TestsReports/ (not recursive)." -ForegroundColor Yellow
 
 if (!$force) {
     $continue = Read-Host -Prompt 'Are you sure to continue? [y/n]'

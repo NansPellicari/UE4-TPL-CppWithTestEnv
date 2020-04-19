@@ -9,8 +9,11 @@ void SimpleSpec::Define()
 {
     Describe("A Spec", [this]() {
 
-        It("should spec", [this]() {
+        It("should spec with true", [this]() {
             TestTrue("a true assert", true);
+        });
+        It("should spec with false", [this]() {
+            TestFalse("a false assert", false);
         });
 
     });

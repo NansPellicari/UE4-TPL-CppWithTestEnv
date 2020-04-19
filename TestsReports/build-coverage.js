@@ -18,6 +18,8 @@ const coverageApp = ['ue4', 'gg'];
 let globalReport = require(globalReportFile)
 globalReport.coverage = {}
 for (app of coverageApp) {
+    if (!fs.existsSync(`${directory}/${app}/coverage.xml`)) continue
+    
     const data = fs.readFileSync(`${directory}/${app}/coverage.xml`)
     const coverage = JSON.parse(parser.toJson(data))
     
