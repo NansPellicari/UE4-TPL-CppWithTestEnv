@@ -7,9 +7,9 @@ const globalReportFile = './reports/global-reports.json'
 
 if (!fs.existsSync(globalReportFile)) {
     try{
-        fs.writeFileSync(globalReportFile, "{}");
+        fs.writeFileSync(globalReportFile, "{}")
     }catch (e){
-        console.log(chalk.black.bgRed("Cannot write file ", e));
+        console.log(chalk.black.bgRed("Cannot write file ", e))
         return;
     }
 }
@@ -17,10 +17,10 @@ if (!fs.existsSync(globalReportFile)) {
 let globalReport = require(globalReportFile)
 
 globalReport.ue4 = {
-    succeeded: testsuite.succeeded,
+    tests: testsuite.succeeded,
     warnings: testsuite.succeededWithWarnings,
     failed: testsuite.failed,
-    notRun: testsuite.notRun,
+    disabled: testsuite.notRun,
     duration: testsuite.totalDuration,
 }
 fs.writeFileSync(globalReportFile, JSON.stringify(globalReport));

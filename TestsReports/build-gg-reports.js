@@ -2,13 +2,13 @@ const xunitViewer = require('xunit-viewer')
 const fs = require('fs')
 const path = require('path')
 const chalk = require('chalk')
-var parser = require('xml2json');
+var parser = require('xml2json')
 const globalReportFile = './reports/global-reports.json'
 if (!fs.existsSync(globalReportFile)) {
     try{
-        fs.writeFileSync(globalReportFile, "{}");
+        fs.writeFileSync(globalReportFile, "{}")
     }catch (e){
-        console.log(chalk.black.bgRed("Cannot write file ", e));
+        console.log(chalk.black.bgRed("Cannot write file ", e))
         return;
     }
 }

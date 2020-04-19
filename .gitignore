@@ -83,10 +83,11 @@ DerivedDataCache/*
 # Specific TPL project files
 Config/Project.ini
 TestsReports/node_modules
-TestsReports/node_modules
 TestsReports/bower_components
 TestsReports/package-lock.json
 TestsReports/reports/global-reports.json
 TestsReports/reports/gg/*
 TestsReports/reports/ue4/*
+TestsReports/coverage/*
 TestsReports/gg-index.html
+LastCoverageResults.log

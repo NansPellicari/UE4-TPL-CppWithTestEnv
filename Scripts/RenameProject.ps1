@@ -40,14 +40,14 @@ if ($continue -eq "y") {
 }
 
 $continue = "y"
-Write-Host "Will replace ""$FromName"" occurences to ""$ToName"" in all files at the root dir (not recursive)." -ForegroundColor Yellow
+Write-Host "Will replace ""$FromName"" occurences to ""$ToName"" in all files at the root dir & TestsReports/ (not recursive)." -ForegroundColor Yellow
 
 if (!$force) {
     $continue = Read-Host -Prompt 'Are you sure to continue? [y/n]'
 }
 
 if ($continue -eq "y") {
-    Get-ChildItem -File | ForEach-Object {
+    Get-ChildItem -File -Path ".","./TestsReports/" | ForEach-Object {
         if ($_.Name -ne "README.md" -And $_.Name -ne "ChangeProjectName.bat") {
             (Get-Content $_.FullName) |
             ForEach-Object { $_ -replace [regex]::Escape("$FromName"), "$ToName" } |

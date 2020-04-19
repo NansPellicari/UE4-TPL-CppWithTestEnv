@@ -1,5 +1,9 @@
 # UE4 template for c++ project with test environment
 
+## Requirements
+
+Install [OpenCppCoverage](https://github.com/OpenCppCoverage/OpenCppCoverage/wiki)
+
 ## 1 - Clone to a specific dir
 
 ```
@@ -34,9 +38,15 @@ git submodule update --init --recursive
 Run all tests to check all is well configure.
 
 ```
-./RunTestsGG.bat
-./RunTestsUE4.bat MyNewGame
+.\RunTestsGG.bat
+.\RunTestsUE4.bat MyNewGame
 ```
 
-## 5 - Remove .git file or change remote repo
-## 6 - Reinstall git modules on your new git repository
+# 5 - coverage
+
+```
+ .\RunCoverage.bat
+```
+
+## 6 - Remove .git file or change remote repo
+## 7 - Reinstall git modules on your new git repository

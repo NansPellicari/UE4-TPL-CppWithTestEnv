@@ -17,8 +17,8 @@ if "%~2" neq "" set p2="%~2"
 if "%~3" neq "" set p3="%~3"
 
 echo Clean project dirs
-FOR /d /r %%d IN ("Binaries","Build","Intermediate","Saved") DO @IF EXIST "%%d" rd /s /q "%%d"
-FOR %%f IN ("*.sln", "*.code-workspace") DO @IF EXIST "%%f" del "%%f"
+FOR /d /r %%d IN ("Binaries","Build","Intermediate","Saved","TestsReports\node_modules","TestsReports\bower_components","TestsReports\reports\gg\","TestsReports\reports\ue4","TestsReports\coverage") DO @IF EXIST "%%d" rd /s /q "%%d"
+FOR %%f IN ("*.sln", "*.code-workspace", "LastCoverageResults.log", "TestsReports\reports\global-reports.json") DO @IF EXIST "%%f" del "%%f"
 
 echo Rename all project files and dir
 PowerShell.exe -Command "& '%cd%\Scripts\RenameProject.ps1'" '%p1%' '%p2%' %p3%

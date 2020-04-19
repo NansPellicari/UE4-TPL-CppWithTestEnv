@@ -6,6 +6,7 @@
     "scripts": {
         "test:ue4": "node build-ue4-reports.js",
         "test:gg": "node build-gg-reports.js",
+        "test:coverage": "node build-coverage.js",
         "server:start": "pm2 start index.js",
         "server:stop": "pm2 stop index.js",
         "server:id": "pm2 id index.js",

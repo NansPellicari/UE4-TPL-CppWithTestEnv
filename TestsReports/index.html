@@ -13,21 +13,27 @@
 
             
     <style>
+        .row-badge {
+            margin-bottom: 0;
+        }
         span.badge {
             font-size: 10px;
             background-color: blue;
             color: black;
+            margin-bottom: 5px;
         }
-        span.badge.tests {
+        span.badge.tests, span.badge.covered {
             background-color: #c6ff00;
         }
         span.badge.warnings {
             background-color: #ffeb3b;
         }
-        span.badge.failed {
+        span.badge.failed, span.badge.uncovered {
             background-color: #d32f2f;
             color: white;
-            font-size: 14px
+        }
+        span.badge.failed {
+            font-size: 14px;
         }
         span.badge.disabled {
             background-color: #e0e0e0;
@@ -44,46 +50,82 @@
 
   <body class="blue-grey darken-4">
 
-      <nav class="blue-grey darken-3">
+    <ul id="dropdownGG" class="dropdown-content">
+        <li><a href="./gg-index.html">Reports</a></li>
+        <li><a href="./coverage/gg/index.html">Coverage</a></li>
+    </ul>
+
+    <ul id="dropdownUE4" class="dropdown-content">
+        <li><a href="./reports/ue4/index.html">Reports</a></li>
+        <li><a href="./coverage/ue4/index.html">Coverage</a></li>
+    </ul>
+
+    <nav class="blue-grey darken-3">
         <div class="nav-wrapper">
-        <a href="#" class="brand-logo" style="padding-left: 10px">My project - Reports</a>
+        <a class="left" style="font-size: 24px; padding-left: 10px;">MyProject - Reports</a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li><a href="./gg-index.html">GGtests</a></li>
-            <li><a href="./reports/ue4/index.html">UE4</a></li>
+            <li><a class="dropdown-trigger" href="#!" data-target="dropdownGG">GoogleTestApp</a></li>
+            <li><a class="dropdown-trigger" href="#!" data-target="dropdownUE4">MyProject</a></li>
         </ul>
         </div>
     </nav>
     <div class="container">
 
-        <div class="row">
-            <div class="col s6">
-                <div class="card gg">
+        <div class="row row-badge">
+            <div class="col s12 m6 gg">
+                <h3 class="white-text center-align">Google Tests</h3>
+                <div class="card reports">
                     <a href="./gg-index.html">
                         <div class="card-content white-text">
-                            <span class="card-title">Google Tests reports</span>
-                            <p>
+                            <span class="card-title">Reports</span>
+                            <div class="row row-badge">
                                 <span class="badge failed">0</span>
                                 <span class="badge warnings">0</span>
                                 <span class="badge disabled">0</span>
                                 <span class="badge tests">0</span>
                                 <span class="badge duration">0</span>
-                            </p>
+                            </div>
                         </div>
                     </a>
-                  </div>
+                </div>
+                <div class="card coverage">
+                    <a href="./coverage/gg/index.html">
+                        <div class="card-content white-text">
+                            <span class="card-title">Coverage</span>
+                            <div class="row row-badge">
+                                <span class="badge percent white-text"><span>0</span>%</span>
+                                <span class="badge uncovered">Lines uncovered: <span>0</span></span>
+                                <span class="badge covered">Lines covered: <span>0</span></span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
             </div>
-            <div class="col s6">
-                <div class="card ue4">
+            <div class="col s12 m6 ue4">
+                <h3 class="white-text center-align">MyProject</h3>
+                <div class="card reports">
                     <a href="./reports/ue4/index.html">
                         <div class="card-content white-text">
-                            <span class="card-title">UE4 tests reports</span>
-                            <p>
+                            <span class="card-title">Reports</span>
+                            <div class="row row-badge">
                                 <span class="badge failed">0</span>
                                 <span class="badge warnings">0</span>
                                 <span class="badge disabled">0</span>
                                 <span class="badge tests">0</span>
                                 <span class="badge duration">0</span>
-                            </p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="card coverage">
+                    <a href="./coverage/ue4/index.html">
+                        <div class="card-content white-text">
+                            <span class="card-title">Coverage</span>
+                            <div class="row row-badge">
+                                <span class="badge percent white-text"><span>0</span>%</span>
+                                <span class="badge uncovered">Lines uncovered: <span>0</span></span>
+                                <span class="badge covered">Lines covered: <span>0</span></span>
+                            </div>
                         </div>
                     </a>
                 </div>
@@ -99,22 +141,50 @@
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script>
+        const getColor = (percent) => {
+            let color = 'light-green';
+            color = (percent) > 0.25 && percent < 0.4 ? 'light-green lighten-1' : color;
+            color = (percent) >= 0.4 && percent < 0.5 ? 'light-green lighten-2' : color;
+            color = (percent) >= 0.5 && percent < 0.6 ? 'yellow darken-1' : color;
+            color = (percent) >= 0.6 && percent < 0.7 ? 'amber' : color;
+            color = (percent) >= 0.7 && percent < 0.8 ? 'orange' : color;
+            color = (percent) >= 0.8 && percent < 0.9 ? 'orange darken-3' : color;
+            color = (percent) >= 0.9 ? 'red' : color;
+            return color;
+        };
+        $( document ).ready(function() {
+            $(".dropdown-trigger").dropdown();
+        });
+
         $.getJSON( "./reports/global-reports.json", function( data ) {
             const fields = ["tests","warnings","failed","disabled","duration"];
             const projects = ["gg","ue4"];
             for (const proj of projects) {
+                // test reports
                 let color = 'grey';
                 for (const field of fields) {
                     if (data[proj] != undefined && data[proj][field]) {
                         let val =  data[proj][field] % 1 === 0 ? data[proj][field] : data[proj][field].toFixed(2);
-                        $(`.card.${proj} .badge.${field}`).removeClass("hide").text(`${val} ${field}`);
-                        color = field === 'failed' && data[proj][field] > 0 ? 'red' : color;
-                        color = color === 'grey' ? 'light-green' : color;
+                        $(`.${proj} .card.reports .badge.${field}`).removeClass("hide").text(`${val} ${field}`);
                     } else {
-                        $(`.card.${proj} .badge.${field}`).addClass("hide")
+                        $(`.${proj} .card.reports .badge.${field}`).addClass("hide");
                     }
                 }
-                $(`.card.${proj}`).addClass(color);
+                color = data[proj] && data[proj]['failed'] == 0 ? 'light-green' : color;
+                color = data[proj] && data[proj]['failed'] > 0 ? 'red' : color;
+                $(`.${proj} .card.reports`).addClass(color);
+                
+                // coverage
+                color = 'grey';
+                if (data.coverage && data.coverage[proj]) {
+                    let uncovered = data.coverage[proj].total - data.coverage[proj].valid;
+                    let uncoveredFactor = (uncovered/data.coverage[proj].total);
+                    $(`.${proj} .card.coverage .uncovered span`).text(uncovered);
+                    $(`.${proj} .card.coverage .covered span`).text(data.coverage[proj].valid);
+                    $(`.${proj} .card.coverage .percent span`).text(((1-uncoveredFactor)*100).toFixed(2));
+                    color = getColor(uncoveredFactor);
+                }
+                $(`.${proj} .card.coverage`).addClass(color);
             }
         });
     </script>

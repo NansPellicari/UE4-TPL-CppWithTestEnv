@@ -54,13 +54,14 @@ echo .\Binaries\Win64\GoogleTestApp.exe --gtest_output=xml:./TestsReports/report
 
 pushd "TestsReports/"
 rem ## srmdir test
-echo Clean and reinstall server to display tests results (npm)
 for /f %%i in ('npm run server:id') do set serverId=%%i
-if "%serverId%" neq "[]" ( call npm run server:clean )
-call npm install
+if "%serverId%"=="[]" ( 
+    rem ## Clean and reinstall server to display tests results (npm)
+    call npm install
+    call npm run server:start
+)
 call npm run test:gg
-call npm run server:start
-echo Your should open http://localhost:9999 to see tests results
+echo Your should open %ESC%[92mhttp://localhost:9999%ESC%[0m to see tests results
 popd
 
 rem ## Success!

@@ -42,7 +42,6 @@ if not %ERRORLEVEL% == 0 goto Exit_Failure
 rem ## Run Test
 pushd "%UE4PATH%/Engine/Binaries/Win64"
 UE4Editor-Cmd.exe "%ProjDirectory%\%PROJECT%.uproject" -unattended -nopause -NullRHI -ExecCmds="%command%; quit" -TestExit="Automation Test Queue Empty" -log -log=RunTests.log -ReportOutputPath="%ProjDirectory%\TestsReports\reports\ue4"
-echo %ProjDirectory%\%PROJECT%.uproject
 echo error level output: %ERRORLEVEL%
 REM if not %ERRORLEVEL% == 0 goto Exit_Failure
 popd
@@ -52,13 +51,14 @@ rem ## Clean test environment
 
 pushd "TestsReports/"
 rem ## srmdir test
-echo Clean and reinstall server to display tests results (npm)
 for /f %%i in ('npm run server:id') do set serverId=%%i
-if "%serverId%" neq "[]" ( call npm run server:clean )
-call npm install
+if "%serverId%"=="[]" ( 
+    rem ## Clean and reinstall server to display tests results (npm)
+    call npm install
+    call npm run server:start
+)
 call npm run test:ue4
-call npm run server:start
-echo Your should open http://localhost:9999 to see tests results
+echo Your should open %ESC%[92mhttp://localhost:9999%ESC%[0m to see tests results
 popd
 
 rem ## Restore original CWD in case we change it
