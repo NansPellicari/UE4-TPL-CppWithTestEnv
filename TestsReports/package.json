@@ -14,8 +14,14 @@
         "server:clean": "pm2 delete all",
         "postinstall": "bower install"
     },
-    "author": "",
-    "license": "ISC",
+    "author": "Nans Pellicari",
+    "license": "Apache-2.0",
+    "licenses": [
+        {
+        "type": "Apache-2.0",
+        "url": "http://www.apache.org/licenses/LICENSE-2.0"
+        }
+    ],
     "dependencies": {
         "bower": "^1.8.8",
         "chalk": "^4.0.0",

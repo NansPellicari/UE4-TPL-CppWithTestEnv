@@ -10,7 +10,7 @@ My first needs were:
 * try to reduce the **UE4 build** duration
 * ensure quality to avoid regressions by **running tests frequently**
 
-Then after reading, testing this great serie of articles, and guiding by its author @[ericlemes](https://github.com/ericlemes):
+Then after reading this great serie of articles, testing and guiding by its author @[ericlemes](https://github.com/ericlemes):
 
 * https://ericlemes.com/2018/12/12/unit-tests-in-unreal-pt-1/
 * https://ericlemes.com/2018/12/13/unit-tests-in-unreal-pt-2/
@@ -125,7 +125,20 @@ git remote add origin https://github.com/MY_USER/MY_REPO.git
 git push origin master
 ```
 
-## What is it look like?
+## 7 - Shutdown server
+
+Don't forget to shutdown server when you don't use it or if you switch to other project.
+
+```bash
+cd TestsReports/
+npm run server:stop
+# or to ensure to kill every server
+npm run server:clean
+# or
+pm2 delete all
+```
+
+## What does it look like?
 
 ### Google Test App reports
 
@@ -146,3 +159,5 @@ I choose to use [Xunit viewer](https://www.npmjs.com/package/xunit-viewer) 'caus
 ### UE4 Coverage
 
 ![OpenCppCoverage view](./Docs/dashboard-ue4-open-cpp-coverage.png)
+
+[License Apache-2.0](./LICENSE.md)
