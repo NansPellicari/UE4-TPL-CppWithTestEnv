@@ -129,7 +129,8 @@ if "%ss:~0,1%" == " " set ss=0%ss:~1,1%
 
 if "%build%"=="gg" (
     set buildCommand=%UE4PATH%\Engine\Build\BatchFiles\Build.bat GoogleTestApp Win%OS% Development "%ProjDirectory%\GoogleTestApp.uproject" -waitmutex
-    set testCommand=.\Binaries\Win64\GoogleTestApp.exe --gtest_output=xml:./TestsReports/reports/gg/test-%date:~6,4%%date:~3,2%%date:~0,2%-%hh%%mm%%ss%.xml %extraParams%
+    set testCommand=.\Binaries\Win64\GoogleTestApp.exe --gtest_output=xml:%ProjDirectory%/TestsReports/reports/gg/test-%date:~6,4%%date:~3,2%%date:~0,2%-%hh%%mm%%ss%.xml %extraParams%
+    set dirToRun="%ProjDirectory%"
 
 )
 if "%build%"=="ue4" (

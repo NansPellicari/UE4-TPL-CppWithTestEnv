@@ -16,25 +16,23 @@ const fs = require('fs')
 const path = require('path')
 const chalk = require('chalk')
 const directory = './reports/ue4'
-const testsuite = require(directory + '/index.json')
-const globalReportFile = './reports/global-reports.json'
+let globalReport = require('./get-global-report')
 
-if (!fs.existsSync(globalReportFile)) {
-    try{
-        fs.writeFileSync(globalReportFile, "{}")
-    }catch (e){
-        console.log(chalk.black.bgRed("Cannot write file ", e))
-        return;
-    }
+if (!fs.existsSync(directory)) {
+    console.log(chalk.black.bgRed(` directory ${directory} not found `))
+    console.log(chalk.black.bgRed(` You should run test before, or your last tests contains errors `))
+    return
 }
 
-let globalReport = require(globalReportFile)
+const testsuite = require(directory + '/index.json')
 
-globalReport.ue4 = {
+
+
+globalReport.data.ue4 = {
     tests: testsuite.succeeded,
     warnings: testsuite.succeededWithWarnings,
     failed: testsuite.failed,
     disabled: testsuite.notRun,
     duration: testsuite.totalDuration,
 }
-fs.writeFileSync(globalReportFile, JSON.stringify(globalReport));
+fs.writeFileSync(globalReport.file, JSON.stringify(globalReport.data));

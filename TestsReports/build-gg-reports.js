@@ -17,19 +17,14 @@ const fs = require('fs')
 const path = require('path')
 const chalk = require('chalk')
 var parser = require('xml2json')
-const globalReportFile = './reports/global-reports.json'
-if (!fs.existsSync(globalReportFile)) {
-    try{
-        fs.writeFileSync(globalReportFile, "{}")
-    }catch (e){
-        console.log(chalk.black.bgRed("Cannot write file ", e))
-        return;
-    }
-}
-
-let globalReport = require(globalReportFile)
+let globalReport = require('./get-global-report')
 
 const directory = './reports/gg'
+if (!fs.existsSync(directory)) {
+    console.log(chalk.black.bgRed(` directory ${directory} not found `))
+    console.log(chalk.black.bgRed(" You should run test before, or your last tests contains errors "))
+    return
+}
 
 // thanks to: https://stackoverflow.com/questions/15696218/get-the-most-recent-file-in-a-directory-node-js
 const getLastFile = async (files, path) => {
@@ -67,20 +62,21 @@ const main = async () => {
         const data = fs.readFileSync(directory+'/'+lastFile)
         const reports = JSON.parse(parser.toJson(data));
 
-        globalReport.gg = {};
+        globalReport.data.gg = {};
+
         if (reports) {
             let failed = reports.testsuites.failures ? parseInt(reports.testsuites.failures): 0
             failed += reports.testsuites.errors ? parseInt(reports.testsuites.errors): 0
 
-            globalReport.gg = {
+            globalReport.data.gg = {
                 tests: parseInt(reports.testsuites.tests),
                 failed: failed,
                 disabled: parseInt(reports.testsuites.disabled),
                 duration: parseFloat(reports.testsuites.time),
             }
-
         }
-        fs.writeFileSync(globalReportFile, JSON.stringify(globalReport));
+
+        fs.writeFileSync(globalReport.file, JSON.stringify(globalReport.data));
     } catch (err) {
         console.error(err)
     }

@@ -15,40 +15,6 @@ rem # limitations under the License.
 
 setlocal
 
-for /f "delims=" %%a in ('PowerShell.exe -Command "%cd%\Scripts\GetConfig.ps1 'UE4PATH'"') do (
-    echo %%a
-    set "UE4PATH=%%a"
-)
-
-set p1=MyProject
-set "p2="
-set p3=0
-
-:loop1
-if "%1" neq "" (
-    if "%1"=="-f" (
-        set p3=1
-        shift
-        goto :loop1
-    )
-    if "%1" neq "" (
-        if "%p2%" == "" (
-            set p2=%1
-            shift
-            goto :loop1
-        ) else (
-            set p1=%p2%
-            set p2=%1
-        )
-    )
-)
-
-call .\Clean.bat
-
-echo Rename all project files and dir
-PowerShell.exe -Command "& '%cd%\Scripts\RenameProject.ps1'" '%p1%' '%p2%' %p3%
-
-call .\GenerateProjectFiles.bat
-
-:fail
-exit /B 3
+echo Clean project dirs
+FOR /d /r %%d IN ("Binaries","Build","Intermediate","Saved","TestsReports\node_modules","TestsReports\bower_components","TestsReports\reports\gg\","TestsReports\reports\ue4","TestsReports\coverage") DO @IF EXIST "%%d" rd /s /q "%%d"
+FOR %%f IN ("*.sln", "*.code-workspace", "LastCoverageResults.log", "TestsReports\reports\global-reports.json") DO @IF EXIST "%%f" del "%%f"
