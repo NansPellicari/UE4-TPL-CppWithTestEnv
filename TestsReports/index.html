@@ -76,6 +76,7 @@
                     <a href="./gg-index.html">
                         <div class="card-content white-text">
                             <span class="card-title">Reports</span>
+                            <p class="createdAt hide">-</p>
                             <div class="row row-badge">
                                 <span class="badge failed">0</span>
                                 <span class="badge warnings">0</span>
@@ -90,6 +91,7 @@
                     <a href="./coverage/gg/index.html">
                         <div class="card-content white-text">
                             <span class="card-title">Coverage</span>
+                            <p class="createdAt hide">-</p>
                             <div class="row row-badge">
                                 <span class="badge percent white-text"><span>0</span>%</span>
                                 <span class="badge uncovered">Lines uncovered: <span>0</span></span>
@@ -105,6 +107,7 @@
                     <a href="./reports/ue4/index.html">
                         <div class="card-content white-text">
                             <span class="card-title">Reports</span>
+                            <p class="createdAt hide">-</p>
                             <div class="row row-badge">
                                 <span class="badge failed">0</span>
                                 <span class="badge warnings">0</span>
@@ -119,6 +122,7 @@
                     <a href="./coverage/ue4/index.html">
                         <div class="card-content white-text">
                             <span class="card-title">Coverage</span>
+                            <p class="createdAt hide">-</p>
                             <div class="row row-badge">
                                 <span class="badge percent white-text"><span>0</span>%</span>
                                 <span class="badge uncovered">Lines uncovered: <span>0</span></span>
@@ -168,6 +172,10 @@
                         $(`.${proj} .card.reports .badge.${field}`).addClass("hide");
                     }
                 }
+                if (data[proj]['createdAt']) {
+                    let date = proj === 'gg' ? new Date(data[proj]['createdAt']).toLocaleString() : data[proj]['createdAt'];
+                    $(`.${proj} .card.reports .createdAt`).removeClass("hide").text(date);
+                }
                 color = data[proj] && data[proj]['failed'] == 0 ? 'light-green' : color;
                 color = data[proj] && data[proj]['failed'] > 0 ? 'red' : color;
                 $(`.${proj} .card.reports`).addClass(color);
@@ -175,6 +183,10 @@
                 // coverage
                 color = 'grey';
                 if (data.coverage && data.coverage[proj]) {
+                    if (data.coverage[proj]['createdAt']) {
+                        let date = proj === 'gg' ? new Date(data.coverage[proj]['createdAt']).toLocaleString() : data.coverage[proj]['createdAt'];
+                        $(`.${proj} .card.coverage .createdAt`).removeClass("hide").text(date);
+                    }
                     let uncovered = data.coverage[proj].total - data.coverage[proj].valid;
                     let uncoveredFactor = (uncovered/data.coverage[proj].total);
                     $(`.${proj} .card.coverage .uncovered span`).text(uncovered);

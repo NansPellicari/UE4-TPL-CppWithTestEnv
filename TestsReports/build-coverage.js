@@ -12,35 +12,39 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-const fs = require('fs')
-const path = require('path')
-const chalk = require('chalk')
-var parser = require('xml2json')
-const directory = './coverage/'
-const globalReportFile = './reports/global-reports.json'
+const fs = require("fs");
+const path = require("path");
+const chalk = require("chalk");
+var parser = require("xml2json");
+const directory = "./coverage/";
+const globalReportFile = "./reports/global-reports.json";
 
 if (!fs.existsSync(globalReportFile)) {
-    try{
-        fs.writeFileSync(globalReportFile, "{}")
-    }catch (e){
-        console.log(chalk.black.bgRed("Cannot write file ", e))
-        return;
-    }
+	try {
+		fs.writeFileSync(globalReportFile, "{}");
+	} catch (e) {
+		console.log(chalk.black.bgRed("Cannot write file ", e));
+		return;
+	}
 }
 
-const coverageApp = ['ue4', 'gg'];
-let globalReport = require(globalReportFile)
-globalReport.coverage = {}
+const coverageApp = ["ue4", "gg"];
+let globalReport = require(globalReportFile);
+globalReport.coverage = {};
 for (app of coverageApp) {
-    if (!fs.existsSync(`${directory}/${app}/coverage.xml`)) continue
-    
-    const data = fs.readFileSync(`${directory}/${app}/coverage.xml`)
-    const coverage = JSON.parse(parser.toJson(data))
-    
-    globalReport.coverage[app] = {
-        total: parseInt(coverage.coverage['lines-valid']),
-        valid: parseInt(coverage.coverage['lines-covered'])
+	if (!fs.existsSync(`${directory}/${app}/coverage.xml`)) continue;
+
+	const data = fs.readFileSync(`${directory}/${app}/coverage.xml`);
+	const coverage = JSON.parse(parser.toJson(data));
+
+	globalReport.coverage[app] = {
+		total: parseInt(coverage.coverage["lines-valid"]),
+		valid: parseInt(coverage.coverage["lines-covered"])
+    };
+
+    if (globalReport[app].createdAt) {
+        globalReport.coverage[app].createdAt = globalReport[app].createdAt;
     }
 }
 
-fs.writeFileSync(globalReportFile, JSON.stringify(globalReport))
+fs.writeFileSync(globalReportFile, JSON.stringify(globalReport));

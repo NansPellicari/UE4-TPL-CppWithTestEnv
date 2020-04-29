@@ -12,81 +12,94 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-const xunitViewer = require('xunit-viewer')
-const fs = require('fs')
-const path = require('path')
-const chalk = require('chalk')
-var parser = require('xml2json')
-let globalReport = require('./get-global-report')
+const xunitViewer = require("xunit-viewer");
+const fs = require("fs");
+const path = require("path");
+const chalk = require("chalk");
+var parser = require("xml2json");
+let globalReport = require("./get-global-report");
 
-const directory = './reports/gg'
+const directory = "./reports/gg";
 if (!fs.existsSync(directory)) {
-    console.log(chalk.black.bgRed(` directory ${directory} not found `))
-    console.log(chalk.black.bgRed(" You should run test before, or your last tests contains errors "))
-    return
+	console.log(chalk.black.bgRed(` directory ${directory} not found `));
+	console.log(
+		chalk.black.bgRed(
+			" You should run test before, or your last tests contains errors "
+		)
+	);
+	return;
 }
 
 // thanks to: https://stackoverflow.com/questions/15696218/get-the-most-recent-file-in-a-directory-node-js
 const getLastFile = async (files, path) => {
-    var out = [];
-    for (const file of files) {
-        var stats = await fs.statSync(path + "/" + file)
-        if (stats.isFile()) {
-            out.push({ "file": file, "mtime": stats.mtime.getTime() })
-        }
-    }
+	var out = [];
+	for (const file of files) {
+		var stats = await fs.statSync(path + "/" + file);
+		if (stats.isFile()) {
+			out.push({ file: file, mtime: stats.mtime.getTime() });
+		}
+	}
 
-    out.sort(function (a, b) {
-        return b.mtime - a.mtime;
-    })
-    return (out.length > 0) ? out[0].file : ""
-}
+	out.sort(function (a, b) {
+		return b.mtime - a.mtime;
+	});
+	return out.length > 0 ? out[0].file : "";
+};
 
 const main = async () => {
-    try {
-        const files = fs.readdirSync(directory);
-        const lastFile = await getLastFile(files, directory)
-        if (!/^test-/.test(lastFile)) {
-            console.log(chalk.black.bgYellow(" No reports files for now (probably no tests implemented). "))
-            return
-        }
-        
-        for (const file of files) {
-            // do nothing for the last file
-            if (lastFile === file) continue;
-            if (file === '.gitkeep') continue;
-            // remove file
-            await fs.unlinkSync(path.join(directory, file))
-        }
+	try {
+		const files = fs.readdirSync(directory);
+		const lastFile = await getLastFile(files, directory);
+		if (!/^test-/.test(lastFile)) {
+			console.log(
+				chalk.black.bgYellow(
+					" No reports files for now (probably no tests implemented). "
+				)
+			);
+			return;
+		}
 
-        const data = fs.readFileSync(directory+'/'+lastFile)
-        const reports = JSON.parse(parser.toJson(data));
+		for (const file of files) {
+			// do nothing for the last file
+			if (lastFile === file) continue;
+			if (file === ".gitkeep") continue;
+			// remove file
+			await fs.unlinkSync(path.join(directory, file));
+		}
 
-        globalReport.data.gg = {};
+		const data = fs.readFileSync(directory + "/" + lastFile);
+		const reports = JSON.parse(parser.toJson(data));
 
-        if (reports) {
-            let failed = reports.testsuites.failures ? parseInt(reports.testsuites.failures): 0
-            failed += reports.testsuites.errors ? parseInt(reports.testsuites.errors): 0
+		globalReport.data.gg = {};
 
-            globalReport.data.gg = {
-                tests: parseInt(reports.testsuites.tests),
-                failed: failed,
-                disabled: parseInt(reports.testsuites.disabled),
-                duration: parseFloat(reports.testsuites.time),
-            }
-        }
+		if (reports) {
+			let failed = reports.testsuites.failures
+				? parseInt(reports.testsuites.failures)
+				: 0;
+			failed += reports.testsuites.errors
+				? parseInt(reports.testsuites.errors)
+				: 0;
 
-        fs.writeFileSync(globalReport.file, JSON.stringify(globalReport.data));
-    } catch (err) {
-        console.error(err)
-    }
+			globalReport.data.gg = {
+				createdAt: reports.testsuites.timestamp,
+				tests: parseInt(reports.testsuites.tests),
+				failed: failed,
+				disabled: parseInt(reports.testsuites.disabled),
+				duration: parseFloat(reports.testsuites.time)
+			};
+		}
 
-    await xunitViewer({
-        server: false,
-        results: directory,
-        ignore: ['_thingy', 'invalid'],
-        title: 'GG Tests',
-        output: 'gg-index.html'
-    })
-}
-main()
+		fs.writeFileSync(globalReport.file, JSON.stringify(globalReport.data));
+	} catch (err) {
+		console.error(err);
+	}
+
+	await xunitViewer({
+		server: false,
+		results: directory,
+		ignore: ["_thingy", "invalid"],
+		title: "GG Tests",
+		output: "gg-index.html"
+	});
+};
+main();

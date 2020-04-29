@@ -12,27 +12,30 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-const fs = require('fs')
-const path = require('path')
-const chalk = require('chalk')
-const directory = './reports/ue4'
-let globalReport = require('./get-global-report')
+const fs = require("fs");
+const path = require("path");
+const chalk = require("chalk");
+const directory = "./reports/ue4";
+let globalReport = require("./get-global-report");
 
 if (!fs.existsSync(directory)) {
-    console.log(chalk.black.bgRed(` directory ${directory} not found `))
-    console.log(chalk.black.bgRed(` You should run test before, or your last tests contains errors `))
-    return
+	console.log(chalk.black.bgRed(` directory ${directory} not found `));
+	console.log(
+		chalk.black.bgRed(
+			` You should run test before, or your last tests contains errors `
+		)
+	);
+	return;
 }
 
-const testsuite = require(directory + '/index.json')
-
-
+const testsuite = require(directory + "/index.json");
 
 globalReport.data.ue4 = {
-    tests: testsuite.succeeded,
-    warnings: testsuite.succeededWithWarnings,
-    failed: testsuite.failed,
-    disabled: testsuite.notRun,
-    duration: testsuite.totalDuration,
-}
+	createdAt: testsuite.reportCreatedOn,
+	tests: testsuite.succeeded,
+	warnings: testsuite.succeededWithWarnings,
+	failed: testsuite.failed,
+	disabled: testsuite.notRun,
+	duration: testsuite.totalDuration
+};
 fs.writeFileSync(globalReport.file, JSON.stringify(globalReport.data));
