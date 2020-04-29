@@ -13,9 +13,8 @@
 // limitations under the License.
 
 const fs = require("fs");
-const path = require("path");
 const chalk = require("chalk");
-var parser = require("xml2json");
+const parser = require("xml2json");
 const directory = "./coverage/";
 const globalReportFile = "./reports/global-reports.json";
 

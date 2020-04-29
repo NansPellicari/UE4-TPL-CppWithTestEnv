@@ -16,7 +16,7 @@ const xunitViewer = require("xunit-viewer");
 const fs = require("fs");
 const path = require("path");
 const chalk = require("chalk");
-var parser = require("xml2json");
+const parser = require("xml2json");
 let globalReport = require("./get-global-report");
 
 const directory = "./reports/gg";

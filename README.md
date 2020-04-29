@@ -1,17 +1,49 @@
 # UE4 template for c++ project with test environment
 
-Launch your tests and code coverage with just **1** commandline and get nice reports!
+Launch your tests and code coverage with just **1** commandline + get nice reports!
 
-> /!\ For now it works only on Window
+> /!\ For now it works only on **Window**
 
 ![Dashboard](./Docs/dashboard.png)
 
-## Why?
+<!-- TOC -->
+
+-   [1. Why?](#1-why)
+-   [2. Requirements](#2-requirements)
+-   [3. Step by step guide](#3-step-by-step-guide)
+    -   [3.1. Clone to a specific dir](#31-clone-to-a-specific-dir)
+    -   [3.2. Rename the project files](#32-rename-the-project-files)
+    -   [3.3. Get submodules](#33-get-submodules)
+    -   [3.4. Test](#34-test)
+        -   [3.4.1. Filter for UE4 build](#341-filter-for-ue4-build)
+        -   [3.4.2. Filters for GG build](#342-filters-for-gg-build)
+    -   [3.5. Coverage](#35-coverage)
+    -   [3.6. Go to your Dashboard](#36-go-to-your-dashboard)
+    -   [3.7. Reinstall git + git modules on your new git repository](#37-reinstall-git--git-modules-on-your-new-git-repository)
+    -   [3.8. Shutdown server](#38-shutdown-server)
+-   [4. Debug](#4-debug)
+    -   [4.1. In VScode](#41-in-vscode)
+    -   [4.2. VS (Visual Studio)](#42-vs-visual-studio)
+-   [5. Formatting](#5-formatting)
+    -   [5.1. VS Code](#51-vs-code)
+    -   [5.2. VS](#52-vs)
+-   [6. Scripts](#6-scripts)
+-   [7. What does it look like?](#7-what-does-it-look-like)
+    -   [7.1. Google Test App reports](#71-google-test-app-reports)
+    -   [7.2. Google Test App Coverage](#72-google-test-app-coverage)
+    -   [7.3. UE4 reports](#73-ue4-reports)
+    -   [7.4. UE4 Coverage](#74-ue4-coverage)
+
+<!-- /TOC -->
+
+<a id="markdown-1-why" name="1-why"></a>
+
+## 1. Why?
 
 My first needs were:
 
 -   improve my process of **proof concepting**
--   try to reduce the **UE4 build** duration
+-   try to reduce the **UE4 tests build** duration
 -   ensure quality to avoid regressions by **running tests frequently**
 
 Then after reading this great serie of articles, testing and guiding by its author @[ericlemes](https://github.com/ericlemes):
@@ -22,7 +54,9 @@ Then after reading this great serie of articles, testing and guiding by its auth
 
 this project came to life!
 
-## Requirements
+<a id="markdown-2-requirements" name="2-requirements"></a>
+
+## 2. Requirements
 
 -   [PowerShell](https://docs.microsoft.com/en-us/powershell/)
 -   [Unreal Engine](https://github.com/EpicGames/UnrealEngine)
@@ -31,7 +65,13 @@ this project came to life!
 -   [NodeJs](https://nodejs.org/en/download/)
 -   [Pm2](https://pm2.keymetrics.io/)
 
-## 1 - Clone to a specific dir
+<a id="markdown-3-step-by-step-guide" name="3-step-by-step-guide"></a>
+
+## 3. Step by step guide
+
+<a id="markdown-31-clone-to-a-specific-dir" name="31-clone-to-a-specific-dir"></a>
+
+### 3.1. Clone to a specific dir
 
 ```powershell
 git clone git@github.com:NansPellicari/UE4-TPL-CppWithTestEnv.git MyNewGame
@@ -39,7 +79,9 @@ git clone git@github.com:NansPellicari/UE4-TPL-CppWithTestEnv.git MyNewGame
 cd MyNewGame
 ```
 
-## 2 - Rename the project files
+<a id="markdown-32-rename-the-project-files" name="32-rename-the-project-files"></a>
+
+### 3.2. Rename the project files
 
 ```powershell
 .\ChangeProjectName.bat 'MyNewGame'
@@ -60,23 +102,28 @@ This will:
 -   changes all `MyProject` occurences in `./Source/`, `./Config/` and `./TestsReports/` directories.
 -   generate Project Files (for VS or VScode)
 
-## 3 - Get submodules
+<a id="markdown-33-get-submodules" name="33-get-submodules"></a>
 
-This repo embeds [UE4-GoogleTest](https://github.com/NansPellicari/UE4-GoogleTest) plugins which is a **UE4 plugin**, a simple adapter for the [googletest](https://github.com/google/googletest) project.
+### 3.3. Get submodules
+
+This repo embeds [UE4-GoogleTest](https://github.com/NansPellicari/UE4-GoogleTest) plugins which is a **UE4 plugin**, a simple bridge for the [googletest](https://github.com/google/googletest) project.
 
 ```powershell
 git sumbmodule init
 git submodule update --init --recursive
 ```
 
-## 4 - Test
+<a id="markdown-34-test" name="34-test"></a>
+
+### 3.4. Test
 
 Run all tests to check if all is well configure.
 
 ```powershell
 .\RunTests.bat -b gg
+# this one failed intentionally
 .\RunTests.bat -b ue4 MyNewGame
-# last parameter is recommended for this one (see section 4a),
+# last parameter is recommended for this one (see section 3.4.1.),
 # otherwise it launches every UE4 tests
 ```
 
@@ -87,7 +134,9 @@ Run all tests to check if all is well configure.
 
 For the both builds (`ue4` or `gg`), you can filter **tests** to run.
 
-### 4a - Filter for UE4 build
+<a id="markdown-341-filter-for-ue4-build" name="341-filter-for-ue4-build"></a>
+
+#### 3.4.1. Filter for UE4 build
 
 For this build is really important to filter, otherwise it will run all Unreal Engine's tests, which is A LOT!  
 You can add any filters you need as if:
@@ -98,7 +147,9 @@ You can add any filters you need as if:
 
 > this will call `UE4Editor-Cmd.exe` with this parameter `-ExecCmds="Automation RunTests MyNewGame+MyPlugin.Core; quit"`
 
-### 4b - Filters for GG build
+<a id="markdown-342-filters-for-gg-build" name="342-filters-for-gg-build"></a>
+
+#### 3.4.2. Filters for GG build
 
 Use params as [google test](https://github.com/google/googletest/blob/master/googletest/docs/advanced.md#selecting-tests) defined.
 
@@ -108,7 +159,9 @@ Use params as [google test](https://github.com/google/googletest/blob/master/goo
 
 > to list test names: `.\RunTests.bat -b gg --gtest_list_tests`
 
-## 5 - Coverage
+<a id="markdown-35-coverage" name="35-coverage"></a>
+
+### 3.5. Coverage
 
 Just add `-c` option:
 
@@ -117,7 +170,19 @@ Just add `-c` option:
 .\RunTests.bat -c -b ue4 MyNewGame
 ```
 
-## 6 - Reinstall git + git modules on your new git repository
+<a id="markdown-36-go-to-your-dashboard" name="36-go-to-your-dashboard"></a>
+
+### 3.6. Go to your Dashboard
+
+I use [node](https://nodejs.org/en/download/) and [pm2](https://pm2.keymetrics.io/) to create a simple server which display all tests reports and coverages in one **dashboard**.  
+Find it at `http://localhost:9999/` to see last results in a glimpse.  
+Each block is a link to the more detailed reports page (see section **What does it look like?** below).
+
+![Dashboard](./Docs/dashboard.png)
+
+<a id="markdown-37-reinstall-git--git-modules-on-your-new-git-repository" name="37-reinstall-git--git-modules-on-your-new-git-repository"></a>
+
+### 3.7. Reinstall git + git modules on your new git repository
 
 ```powershell
 rd .\git\
@@ -139,9 +204,28 @@ git config master.remote origin
 git config master.merge refs/heads/master
 ```
 
-## 7 - Debug
+<a id="markdown-38-shutdown-server" name="38-shutdown-server"></a>
 
-### 7a - In VScode
+### 3.8. Shutdown server
+
+Don't forget to shutdown server when you don't use it or if you switch to other project.
+
+```bash
+cd TestsReports/
+npm run server:stop
+# or to ensure to kill every server
+npm run server:clean
+# or
+pm2 delete all
+```
+
+<a id="markdown-4-debug" name="4-debug"></a>
+
+## 4. Debug
+
+<a id="markdown-41-in-vscode" name="41-in-vscode"></a>
+
+### 4.1. In VScode
 
 First add a build conf in `.vscode/tasks.json`:
 
@@ -165,7 +249,7 @@ First add a build conf in `.vscode/tasks.json`:
 }
 ```
 
-and a debug config in your `.vscode/launch.js`:
+and debug configs in your `.vscode/launch.js`:
 
 ```json
 {
@@ -211,30 +295,65 @@ and a debug config in your `.vscode/launch.js`:
 }
 ```
 
-## 8 - Go to your Dashboard
+<a id="markdown-42-vs-visual-studio" name="42-vs-visual-studio"></a>
 
-I use [node](https://nodejs.org/en/download/) and [pm2](https://pm2.keymetrics.io/) to create a simple server which display all tests reports and coverages in one **dashboard**.  
-Find it at `http://localhost:9999/` to see last results in a glimpse.  
-Each block is a link to the more detailed reports page (see section **What does it look like?** below).
+### 4.2. VS (Visual Studio)
 
-![Dashboard](./Docs/dashboard.png)
+WIP
 
-## 9 - Shutdown server
+<a id="markdown-5-formatting" name="5-formatting"></a>
 
-Don't forget to shutdown server when you don't use it or if you switch to other project.
+## 5. Formatting
 
-```bash
-cd TestsReports/
-npm run server:stop
-# or to ensure to kill every server
-npm run server:clean
-# or
-pm2 delete all
+<a id="markdown-51-vs-code" name="51-vs-code"></a>
+
+### 5.1. VS Code
+
+To format on save and during edition, add this in your `.vscode/settings.json`:
+
+```json
+{
+	"editor.formatOnSave": true,
+	"editor.formatOnType": true
+}
 ```
 
-## What does it look like?
+To make the formatter (I use [prettier](https://github.com/prettier/prettier-vscode)) recognize the json format for `.uproject` and `.plugin` files (but It should be placed on the **user** or **workspace** `settings.json`, see [this](https://github.com/prettier/prettier-vscode/issues/606#issuecomment-578085675)):
 
-### Google Test App reports
+```json
+{
+	"files.associations": {
+		"_.uproject": "json",
+		"_.uplugin": "json"
+	}
+}
+```
+
+<a id="markdown-52-vs" name="52-vs"></a>
+
+### 5.2. VS
+
+WIP
+
+<a id="markdown-6-scripts" name="6-scripts"></a>
+
+## 6. Other scripts
+
+A bunch of scripts can be used to helps you during your development session:
+
+| Script                       | Usage                                                                                                                                                                                                                  |
+| :--------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `.\GeneratePlugins.bat`      | copies files from the c++ Blank Project template in the Unreal Engine directory and rename it                                                                                                                          |
+| `.\Clean.bat`                | Removes all generated files and folder                                                                                                                                                                                 |
+| `.\GenerateProjectFiles.bat` | Uses `<ue4 rootpath>Engine\Binaries\DotNET\UnrealBuildTool.exe` to generate VS or VSCode files from the .uproject file + download npm dependencies in the TestsReports folder + clean and start nodejs report's server |
+
+<a id="markdown-7-what-does-it-look-like" name="7-what-does-it-look-like"></a>
+
+## 7. What does it look like?
+
+<a id="markdown-71-google-test-app-reports" name="71-google-test-app-reports"></a>
+
+### 7.1. Google Test App reports
 
 I choose to use [Xunit viewer](https://www.npmjs.com/package/xunit-viewer) 'cause (at the age of this repo creation):
 
@@ -243,15 +362,21 @@ I choose to use [Xunit viewer](https://www.npmjs.com/package/xunit-viewer) 'caus
 
 ![Xunit viewer](./Docs/dashboard-gg-xunit-viewer.png)
 
-### Google Test App Coverage
+<a id="markdown-72-google-test-app-coverage" name="72-google-test-app-coverage"></a>
+
+### 7.2. Google Test App Coverage
 
 ![OpenCppCoverage view](./Docs/dashboard-gg-open-cpp-coverage.png)
 
-### UE4 reports
+<a id="markdown-73-ue4-reports" name="73-ue4-reports"></a>
+
+### 7.3. UE4 reports
 
 ![Junit viewer](./Docs/dashboard-ue4-junit.png)
 
-### UE4 Coverage
+<a id="markdown-74-ue4-coverage" name="74-ue4-coverage"></a>
+
+### 7.4. UE4 Coverage
 
 ![OpenCppCoverage view](./Docs/dashboard-ue4-open-cpp-coverage.png)
 

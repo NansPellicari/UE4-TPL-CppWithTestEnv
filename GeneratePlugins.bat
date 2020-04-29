@@ -74,9 +74,8 @@ exit /b 0
 :Exit_Failure
 exit /b 3
 
-
 :choices
 echo %ESC%[36m
-echo usage: .\GeneratePlugins.bat [-h] 'NAME'
+echo usage: .\GeneratePlugins.bat [-h] 'Name'
 echo %ESC%[0m
 :end

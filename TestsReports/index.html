@@ -40,6 +40,9 @@
             color: white;
             background-color: #2196f3;
         }
+        .createdAt {
+            margin-bottom: 5px !important;
+        }
 
     </style>
     <!--Let browser know website is optimized for mobile-->
@@ -172,7 +175,7 @@
                         $(`.${proj} .card.reports .badge.${field}`).addClass("hide");
                     }
                 }
-                if (data[proj]['createdAt']) {
+                if (data[proj] && data[proj]['createdAt']) {
                     let date = proj === 'gg' ? new Date(data[proj]['createdAt']).toLocaleString() : data[proj]['createdAt'];
                     $(`.${proj} .card.reports .createdAt`).removeClass("hide").text(date);
                 }

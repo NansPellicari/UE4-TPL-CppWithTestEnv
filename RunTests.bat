@@ -17,6 +17,7 @@ setlocal enableDelayedExpansion
 
 set ProjDirectory=%cd%
 
+rem ## retrieve start date to show file's execution time at the end
 for /F "tokens=1-4 delims=:.," %%a in ("%time%") do (
    set /A "start=(((%%a*60)+1%%b %% 100)*60+1%%c %% 100)*100+1%%d %% 100"
 )
@@ -38,18 +39,7 @@ for /f "delims=" %%a in ('PowerShell.exe -Command "%cd%\Scripts\GetConfig.ps1 'P
     set "PROJECT=%%a"
 )
 
-if "%UE4PATH%" == "" (
-    echo %ESC%[91mYou have to set the Engine directory in the Config/Project.ini %ESC%[0m
-    set ERRORLEVEL=2
-    goto Exit_Failure
-)
-
-if not exist "%UE4PATH%" (
-    echo %ESC%[91mDirectory %UE4PATH% does not exists%ESC%[0m
-    set ERRORLEVEL=2
-    goto Exit_Failure
-)
-
+rem ## Check if UE4PATH setting is good
 if not exist "%UE4PATH%\Engine\Build\BatchFiles\Build.bat" (
     echo %ESC%[91mWrong path "%UE4PATH%" given for the engine directory, can't find the "Engine\Build\BatchFiles\Build.bat" file%ESC%[0m 
     set ERRORLEVEL=2
@@ -83,7 +73,7 @@ if "%build%" == "" (
 :loop2
 if "%1" neq "" (
     rem ## Special case for UE4 build
-    rem ## this allow to build params like this: MyNewGame+MyPlugin.Spec+
+    rem ## this allow to format params like this: MyNewGame+MyPlugin.Spec+
     if "%build%"=="ue4" set extraParams=%extraParams%%1+
     if "%build%"=="gg" goto :after_loop
     SHIFT
@@ -91,14 +81,14 @@ if "%1" neq "" (
 )
 
 :after_loop
-rem ## Just to remove the useless + at the end
+rem ## Just to remove the useless "+"" at the end
 if "%build%"=="ue4" (
     if "%extraParams%" neq "" (
         set extraParams=%extraParams:~0,-1%
     )
 )
 
-rem ## every opts int the cmd tail are passed to the executable
+rem ## for google tests, every options in the cmd tail are passed to the executable
 set allParams=%*
 if "%build%"=="gg" (
     call set extraParams=%allParams:*gg=%
@@ -114,6 +104,8 @@ echo extraParams   : %extraParams%
 echo -------------------------------
 echo %ESC%[0m
 
+rem ## If you use external plugins in your project, you can exlude them, just add anothers "--excluded_sources" parameters.
+rem ## see https://github.com/OpenCppCoverage/OpenCppCoverage/wiki/Command-line-reference
 set coverageCommand=OpenCppCoverage --sources=%ProjDirectory% --excluded_sources=%ProjDirectory%\Plugins\GoogleTest  --export_type=html:%ProjDirectory%\TestsReports\coverage\%build% --export_type=cobertura:%ProjDirectory%\TestsReports\coverage\%build%\coverage.xml
 set "buildCommand="
 set "testCommand="
@@ -186,6 +178,7 @@ if %coverage% == 1 call npm run test:coverage
 echo Your should open %ESC%[92mhttp://localhost:9999 %ESC%[0m to see tests results
 popd
 
+rem ## retrieve end date to show file's execution time below
 for /F "tokens=1-4 delims=:.," %%a in ("%time%") do (
    set /A "end=(((%%a*60)+1%%b %% 100)*60+1%%c %% 100)*100+1%%d %% 100"
 )

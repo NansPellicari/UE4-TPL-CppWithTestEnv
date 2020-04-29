@@ -13,7 +13,6 @@
 // limitations under the License.
 
 const fs = require("fs");
-const path = require("path");
 const chalk = require("chalk");
 const directory = "./reports/ue4";
 let globalReport = require("./get-global-report");
