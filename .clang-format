@@ -123,9 +123,5 @@ SpacesInParentheses: false
 SpacesInSquareBrackets: false
 Standard:        Auto
 TabWidth:        4
-UseTab:          Never
+UseTab:          Always
 NamespaceIndentation: All
----
-Language:        CSharp
-UseTab:          Never
-TabWidth:        4
