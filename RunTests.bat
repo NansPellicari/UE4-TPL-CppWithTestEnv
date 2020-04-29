@@ -16,20 +16,19 @@ rem # limitations under the License.
 setlocal enableDelayedExpansion
 
 set ProjDirectory=%cd%
-set start=%time%
+
+for /F "tokens=1-4 delims=:.," %%a in ("%time%") do (
+   set /A "start=(((%%a*60)+1%%b %% 100)*60+1%%c %% 100)*100+1%%d %% 100"
+)
 
 rem ## to get the ESC character, used to colorized output
 for /F %%a in ('echo prompt $E ^| cmd') do set "ESC=%%a"
 
 rem ## Get the OS version
-rem ## thanks to https://stackoverflow.com/questions/12322308/batch-file-to-check-64bit-or-32bit-os
-reg Query "HKLM\Hardware\Description\System\CentralProcessor\0" | find /i "x86" > NUL && set OS=32 || set OS=64
-
-rem ## due to the command above, errorlevel is set to 1, see https://support.microsoft.com/en-gb/help/556009
-rem ## so just reset it here
-if %ERRORLEVEL% == 1 (
-    set ERRORLEVEL=0
+for /f "delims=" %%a in ('PowerShell.exe -Command "(Get-WmiObject Win32_OperatingSystem).OSArchitecture"') do (
+    set "OS=%%a"
 )
+set "OS=%OS:~0,2%"
 
 rem ## retrieve project settings
 for /f "delims=" %%a in ('PowerShell.exe -Command "%cd%\Scripts\GetConfig.ps1 'UE4PATH'"') do (
@@ -134,6 +133,10 @@ if "%build%"=="gg" (
 
 )
 if "%build%"=="ue4" (
+    rem ## This is my naming convention, Every *Core* module is only tested with GG tests,
+    rem ## so to avoid uncovered lines which are covered elsewhere, I excluded them here.
+    rem ## Change this line to adapt it on your naming convention.
+    set coverageCommand=%coverageCommand% --excluded_modules=*Core*
     set buildCommand=%UE4PATH%\Engine\Build\BatchFiles\Build.bat %PROJECT%Editor Win%OS% Development "%ProjDirectory%\%PROJECT%.uproject" -waitmutex
     set subcommand=Automation RunAll
     if "%extraParams%" neq "" ( set subcommand=Automation RunTests %extraParams% )
@@ -148,8 +151,7 @@ echo %ESC%[0m
 echo  %ESC%[36mLaunch build command %buildCommand%
 echo %ESC%[0m
 call %buildCommand%
-echo error level output: %ERRORLEVEL%
-if not %ERRORLEVEL% == 0 goto Exit_Failure
+if not %ERRORLEVEL% == 0 goto Exit_Build_Failure
 
 rem ## Add coverage command prefix
 if %coverage% == 1 (
@@ -181,29 +183,19 @@ if "%serverId%"=="[]" (
 call npm run test:%build%
 if %coverage% == 1 call npm run test:coverage
 
-echo Your should open %ESC%[92mhttp://localhost:9999%ESC%[0m to see tests results
+echo Your should open %ESC%[92mhttp://localhost:9999 %ESC%[0m to see tests results
 popd
 
-set end=%time%
+for /F "tokens=1-4 delims=:.," %%a in ("%time%") do (
+   set /A "end=(((%%a*60)+1%%b %% 100)*60+1%%c %% 100)*100+1%%d %% 100"
+)
 
-rem to compute script execution time
-set /a h=1%start:~0,2%-100
-set /a m=1%start:~3,2%-100
-set /a s=1%start:~6,2%-100
-set /a c=1%start:~9,2%-100
-set /a starttime = %h% * 360000 + %m% * 6000 + 100 * %s% + %c%
- 
-set /a h=1%end:~0,2%-100
-set /a m=1%end:~3,2%-100
-set /a s=1%end:~6,2%-100
-set /a c=1%end:~9,2%-100
-set /a endtime = %h% * 360000 + %m% * 6000 + 100 * %s% + %c%
- 
-rem runtime in 100ths is now just end - start
-set /a runtime = %endtime% - %starttime%
-set runtime = %s%.%c%
-echo %ESC%[36;1mrun in %runtime%0 ms%ESC%[0m
+set /a runtime = (%end% - %start%)*10
+echo %ESC%[36;1mrun in %runtime% ms%ESC%[0m
 exit /B 0
+
+:Exit_Build_Failure
+echo %ESC%[101;30m -- Build failed -- %ESC%[0m 
 
 :Exit_Failure
 echo %ESC%[91mfailed with error level %ERRORLEVEL%%ESC%[0m 
