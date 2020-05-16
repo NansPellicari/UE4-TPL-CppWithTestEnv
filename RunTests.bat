@@ -170,10 +170,11 @@ for /f %%i in ('npm run server:id') do set serverId=%%i
 if "%serverId%"=="[]" ( 
     rem ## Clean and reinstall server to display tests results (npm)
     call npm install
+    call npm run server:clean
     call npm run server:start
 )
-call npm run test:%build%
-if %coverage% == 1 call npm run test:coverage
+call npm run build:%build%
+if %coverage% == 1 call npm run build:coverage
 
 echo Your should open %ESC%[92mhttp://localhost:9999 %ESC%[0m to see tests results
 popd
