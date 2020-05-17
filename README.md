@@ -6,6 +6,10 @@ Launch your tests and code coverage with just **1** commandline + get nice repor
 
 ![Dashboard](./Docs/dashboard.png)
 
+|                                                                                                       <a href="https://www.buymeacoffee.com/NansUE4" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-green.png" alt="Buy Me A Coffee" height="51" width="217"></a>                                                                                                        |
+| :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| I've decided to make all the code I developped for my games free to use and open source.<br> I am a true believer in the mindset that sharing and collaborating makes the world a better place.<br> The thing is: I'm fulltime dedicated to my project and these open source plugins, for coding I need a looooot of coffee, so please, help me to get my drug :stuck_out_tongue_closed_eyes: !! |
+
 <!-- TOC -->
 
 -   [1. Why?](#1-why)
@@ -27,12 +31,13 @@ Launch your tests and code coverage with just **1** commandline + get nice repor
 -   [5. Formatting](#5-formatting)
     -   [5.1. VS Code](#51-vs-code)
     -   [5.2. VS](#52-vs)
--   [6. Scripts](#6-scripts)
+-   [6. Other scripts](#6-other-scripts)
 -   [7. What does it look like?](#7-what-does-it-look-like)
     -   [7.1. Google Test App reports](#71-google-test-app-reports)
     -   [7.2. Google Test App Coverage](#72-google-test-app-coverage)
     -   [7.3. UE4 reports](#73-ue4-reports)
     -   [7.4. UE4 Coverage](#74-ue4-coverage)
+-   [8. Contributing and Supporting](#8-contributing-and-supporting)
 
 <!-- /TOC -->
 
@@ -75,7 +80,7 @@ this project came to life!
 
 ```powershell
 git clone git@github.com:NansPellicari/UE4-TPL-CppWithTestEnv.git MyNewGame
-# renaming destination folder is important, 'cause UE4 doesn't like dash in project name
+# /!\ renaming destination folder is important, 'cause UE4 doesn't like dash in project name
 cd MyNewGame
 ```
 
@@ -145,7 +150,7 @@ You can add any filters you need as if:
 .\RunTests.bat -b ue4 MyNewGame MyPlugin.Core
 ```
 
-> this will call `UE4Editor-Cmd.exe` with this parameter `-ExecCmds="Automation RunTests MyNewGame+MyPlugin.Core; quit"`
+> this will call `UE4Editor-Cmd.exe` with this parameter `-ExecCmds=" mation RunTests MyNewGame+MyPlugin.Core; quit"`
 
 <a id="markdown-342-filters-for-gg-build" name="342-filters-for-gg-build"></a>
 
@@ -279,8 +284,10 @@ and debug configs in your `.vscode/launch.js`:
 				"-nopause",
 				"-NullRHI",
 				// Change here test's filter you want to run instead of MyTest
-				"-ExecCmds=\"Automation RunTests MyTest; quit\"",
-				"-TestExit=\"Automation Test Queue Empty\"",
+				"-ExecCmds=\"
+mation RunTests MyTest; quit\"",
+				"-TestExit=\"
+mation Test Queue Empty\"",
 				"-log",
 				"-log=RunTests.log",
 				"-ReportOutputPath=\"<YourProjectPath>\\TestsReports\\reports\\ue4\""
@@ -335,7 +342,7 @@ To make the formatter (I use [prettier](https://github.com/prettier/prettier-vsc
 
 WIP
 
-<a id="markdown-6-scripts" name="6-scripts"></a>
+<a id="markdown-6-other-scripts" name="6-other-scripts"></a>
 
 ## 6. Other scripts
 
@@ -381,3 +388,16 @@ I choose to use [Xunit viewer](https://www.npmjs.com/package/xunit-viewer) 'caus
 ![OpenCppCoverage view](./Docs/dashboard-ue4-open-cpp-coverage.png)
 
 [License Apache-2.0](./LICENSE.md)
+
+<a id="markdown-8-contributing-and-supporting" name="8-contributing-and-supporting"></a>
+
+## 8. Contributing and Supporting
+
+I've decided to make all the code I developped for my games free to use and open source.  
+I am a true believer in the mindset that sharing and collaborating makes the world a better place.  
+I'll be very glad if you decided to help me to follow my dream.
+
+| How?                                                                                                                                                                            |                                                                                         With                                                                                         |
+| :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| **Donating**<br> Cause I'm an independant developper/creator and for now I don't have<br> any income, I need money to support my daily needs (coffeeeeee).                      | <a href="https://www.buymeacoffee.com/NansUE4" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-green.png" alt="Buy Me A Coffee" height="51" width="217" ></a> |
+| **Contributing**<br> You are very welcome if you want to contribute. I explain [here](./CONTRIBUTING.md) in details what<br> is the most comfortable way to me you can help me. |                                                                         [CONTRIBUTING.md](./CONTRIBUTING.md)                                                                         |
