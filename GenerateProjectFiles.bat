@@ -16,19 +16,18 @@ rem # limitations under the License.
 setlocal
 
 rem ## to get the ESC character, used to colorized output
-for /F %%a in ('echo prompt $E ^| cmd') do set "ESC=%%a"
+for /F %%a in ('echo prompt $E ^| cmd') do set ESC=%%a
 
 for /f "delims=" %%a in ('PowerShell.exe -Command "%cd%\Scripts\GetConfig.ps1 'UE4PATH'"') do (
-    set "UE4PATH=%%a"
+    set UE4PATH=%%a
 )
 
 for /f "delims=" %%a in ('PowerShell.exe -Command "%cd%\Scripts\GetConfig.ps1 'PROJECT'"') do (
-    set "PROJECT=%%a"
+    set PROJECT=%%a
 )
 
 if not exist "%UE4PATH%\Engine\Build\BatchFiles\Build.bat" (
     echo %ESC%[91mWrong path "%UE4PATH%" given for the engine directory, can't find the "Engine\Build\BatchFiles\Build.bat" file%ESC%[0m 
-    set ERRORLEVEL=2
     goto Exit_Failure
 )
 
@@ -36,7 +35,6 @@ set projectPath="%~dp0%PROJECT%.uproject"
 
 if not exist "%projectPath%" (
     echo %ESC%[91mProject does not exists here: "%projectPath%"%ESC%[0m 
-    set ERRORLEVEL=2
     goto Exit_Failure
 )
 
@@ -51,3 +49,7 @@ echo Rebuild project "%projectPath%"
 pushd "%UE4PATH%\Engine\Binaries\DotNET\"
 UnrealBuildTool.exe -projectfiles -project="%projectPath%" -game -rocket -progress -engine
 popd
+
+
+:Exit_Failure
+exit /b 3

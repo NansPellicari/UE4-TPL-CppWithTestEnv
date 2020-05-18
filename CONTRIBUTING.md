@@ -28,6 +28,9 @@
 
 -   Make sure `npm run test` (in `TestsReports` folder) passes.
 
+-   If you modify or add `*.bat` files, please use [BatCodeCheck.exe](https://www.robvanderwoude.com/battech_batcodecheck.php) to validate it.
+    (but it is in beta and it has some issues, just use it as a guidelines helper)
+
 -   If adding new feature:
 
     -   Add accompanying test case.
@@ -51,6 +54,8 @@
 You will need requirements specified in the [README](./README.md#2-requirements).
 
 Follow steps in [README Step by step guide](./README.md#3-step-by-step-guide) to install the project.
+
+To test `*.bat` files I downloaded [BatCodeCheck.exe](https://www.robvanderwoude.com/battech_batcodecheck.php), please use it if you make changes on bat files.
 
 ### Coding standard
 

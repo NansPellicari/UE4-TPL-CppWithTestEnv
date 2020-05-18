@@ -15,9 +15,10 @@ rem # limitations under the License.
 
 setlocal
 
-for /f "delims=" %%a in ('PowerShell.exe -Command "%cd%\Scripts\GetConfig.ps1 'UE4PATH'"') do (
-    echo %%a
-    set "UE4PATH=%%a"
+set PROJ_DIR=%~dp0
+
+for /f "delims=" %%a in ('PowerShell.exe -Command "%PROJ_DIR%\Scripts\GetConfig.ps1 'UE4PATH'"') do (
+    set UE4PATH=%%a
 )
 
 set p1=MyProject
@@ -37,18 +38,18 @@ if "%1" neq "" (
             shift
             goto :loop1
         ) else (
-            set p1=%p2%
+            set p1="%p2%"
             set p2=%1
         )
     )
 )
 
-call .\Clean.bat
+call "%PROJ_DIR%\Clean.bat"
 
 echo Rename all project files and dir
-PowerShell.exe -Command "& '%cd%\Scripts\RenameProject.ps1'" '%p1%' '%p2%' %p3%
+PowerShell.exe -Command "& '%PROJ_DIR%\Scripts\RenameProject.ps1' '%p1%' '%p2%' %p3%"
 
-call .\GenerateProjectFiles.bat
+call "%PROJ_DIR%\GenerateProjectFiles.bat"
 
 :fail
 exit /B 3

@@ -62,7 +62,7 @@ if (!$force) {
 
 if ($continue -eq "y") {
     Get-ChildItem -File -Path ".","./TestsReports/" | ForEach-Object {
-        if ($_.Name -ne "README.md" -And $_.Name -ne "ChangeProjectName.bat") {
+        if ($_.Name -ne "README.md" -And $_.Name -ne "ChangeProjectName.bat" -And $_.Name -ne "BatCodeCheck.exe") {
             (Get-Content $_.FullName) |
             ForEach-Object { $_ -replace [regex]::Escape("$FromName"), "$ToName" } |
             Set-Content $_.FullName

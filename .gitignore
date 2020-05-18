@@ -90,4 +90,5 @@ TestsReports/reports/gg/*
 TestsReports/reports/ue4/*
 TestsReports/coverage/*
 TestsReports/gg-index.html
-LastCoverageResults.log
+/*.log
+!BatCodeCheck.exe
