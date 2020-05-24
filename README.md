@@ -69,6 +69,7 @@ this project came to life!
 -   [OpenCppCoverage](https://github.com/OpenCppCoverage/OpenCppCoverage/wiki)
 -   [NodeJs](https://nodejs.org/en/download/)
 -   [Pm2](https://pm2.keymetrics.io/)
+-   [jq](https://stedolan.github.io/jq/download/) (for vscode: use to merge json config files, see [GenerateProjectFiles.bat](./GenerateProjectFiles.bat))
 
 <a id="markdown-3-step-by-step-guide" name="3-step-by-step-guide"></a>
 
@@ -350,7 +351,7 @@ A bunch of scripts can be used to helps you during your development session:
 
 | Script                       | Usage                                                                                                                                                                                                                  |
 | :--------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `.\GeneratePlugins.bat`      | copies files from the c++ Blank Project template in the Unreal Engine directory and rename it                                                                                                                          |
+| `.\GeneratePlugins.bat`      | Copies files from the c++ Blank Project template in the Unreal Engine directory and rename it                                                                                                                          |
 | `.\Clean.bat`                | Removes all generated files and folder                                                                                                                                                                                 |
 | `.\GenerateProjectFiles.bat` | Uses `<ue4 rootpath>Engine\Binaries\DotNET\UnrealBuildTool.exe` to generate VS or VSCode files from the .uproject file + download npm dependencies in the TestsReports folder + clean and start nodejs report's server |
 
@@ -400,4 +401,4 @@ I'll be very glad if you decided to help me to follow my dream.
 | How?                                                                                                                                                                            |                                                                                         With                                                                                         |
 | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
 | **Donating**<br> Cause I'm an independant developper/creator and for now I don't have<br> any income, I need money to support my daily needs (coffeeeeee).                      | <a href="https://www.buymeacoffee.com/NansUE4" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-green.png" alt="Buy Me A Coffee" height="51" width="217" ></a> |
-| **Contributing**<br> You are very welcome if you want to contribute. I explain [here](./CONTRIBUTING.md) in details what<br> is the most comfortable way to me you can help me. |                                                                         [CONTRIBUTING.md](./CONTRIBUTING.md)                                                                         |
+| **Contributing**<br> You are very welcome if you want to contribute. I explain [here](./CONTRIBUTING.md) in details what<br> is the most comfortable way to me you can contribute. |                                                                         [CONTRIBUTING.md](./CONTRIBUTING.md)                                                                         |

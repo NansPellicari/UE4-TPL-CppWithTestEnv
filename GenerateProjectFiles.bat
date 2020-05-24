@@ -51,5 +51,13 @@ UnrealBuildTool.exe -projectfiles -project="%projectPath%" -game -rocket -progre
 popd
 
 
+if exist ".\.vscode\settings.json" (
+    for /f "delims=" %%a in ('PowerShell -Command "jq --tab -s '.[0] * .[1]' .\.vscode\settings.json .\.vscode\settings.sample.json"') do (
+        @echo %%a>> .\.vscode\settings.temp.json
+    )
+    del .\.vscode\settings.json
+    ren .\.vscode\settings.temp.json settings.json
+)
+
 :Exit_Failure
 exit /b 3

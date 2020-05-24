@@ -4,7 +4,7 @@ Content/StarterContent
 .vs/
 # Visual Code user specific files
 .vscode/*
-!.vscode/settings.sample.json
+!.vscode/*.sample.json
 /*.code-workspace
 
 # Compiled Object files
