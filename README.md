@@ -8,7 +8,7 @@ Launch your tests and code coverage with just **1** commandline + get nice repor
 
 |                                                                                                       <a href="https://www.buymeacoffee.com/NansUE4" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-green.png" alt="Buy Me A Coffee" height="51" width="217"></a>                                                                                                        |
 | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
-| I've decided to make all the code I developped for my games free to use and open source.<br> I am a true believer in the mindset that sharing and collaborating makes the world a better place.<br> The thing is: I'm fulltime dedicated to my project and these open source plugins, for coding I need a looooot of coffee, so please, help me to get my drug :stuck_out_tongue_closed_eyes: !! |
+| I've decided to make all the code I developed for my games free to use and open source.<br> I am a true believer in the mindset that sharing and collaborating makes the world a better place.<br> The thing is: I'm fulltime dedicated to my project and these open source plugins, for coding I need a looooot of coffee, so please, help me to get my drug :stuck_out_tongue_closed_eyes: !! |
 
 <!-- TOC -->
 
@@ -45,13 +45,13 @@ Launch your tests and code coverage with just **1** commandline + get nice repor
 
 ## 1. Why?
 
-My first needs were:
+My first needs were to:
 
 -   improve my process of **proof concepting**
 -   try to reduce the **UE4 tests build** duration
 -   ensure quality to avoid regressions by **running tests frequently**
 
-Then after reading this great serie of articles, testing and guiding by its author @[ericlemes](https://github.com/ericlemes):
+Then after reading this great series of articles, testing and guiding by its author @[ericlemes](https://github.com/ericlemes):
 
 -   https://ericlemes.com/2018/12/12/unit-tests-in-unreal-pt-1/
 -   https://ericlemes.com/2018/12/13/unit-tests-in-unreal-pt-2/
@@ -81,7 +81,7 @@ this project came to life!
 
 ```powershell
 git clone git@github.com:NansPellicari/UE4-TPL-CppWithTestEnv.git MyNewGame
-# /!\ renaming destination folder is important, 'cause UE4 doesn't like dash in project name
+# /!\ renaming destination folder is important, because UE4 doesn't like dash in project name
 cd MyNewGame
 ```
 
@@ -102,10 +102,10 @@ cd MyNewGame
 
 This will:
 
--   cleans all unecessary files and folders (if exists: Binaries, Saved,...)
--   prompts you to set the **UE4 root path**
--   renames all `MyProject` files & folders
--   changes all `MyProject` occurences in `./Source/`, `./Config/` and `./TestsReports/` directories.
+-   clean all unnecessary files and folders (if exists: Binaries, Saved,...)
+-   prompt you to set the **UE4 root path**
+-   rename all `MyProject` files & folders
+-   change all `MyProject` occurences in `./Source/`, `./Config/` and `./TestsReports/` directories.
 -   generate Project Files (for VS or VScode)
 
 <a id="markdown-33-get-submodules" name="33-get-submodules"></a>
@@ -133,7 +133,7 @@ Run all tests to check if all is well configure.
 # otherwise it launches every UE4 tests
 ```
 
-> Each run will **builds** using the UE4 builder. `gg`: a **program** build, `ue4`: an **editor** build.  
+> Each run will **build** using the UE4 builder. `gg`: a **program** build, `ue4`: an **editor** build.  
 > It means that the first time they are launch, they'll take time to build.  
 > But on next runs you'll see how fast they are, it is such a pleasure :relaxed:  
 > Special winner is the `gg` build :heart_eyes:
@@ -144,7 +144,7 @@ For the both builds (`ue4` or `gg`), you can filter **tests** to run.
 
 #### 3.4.1. Filter for UE4 build
 
-For this build is really important to filter, otherwise it will run all Unreal Engine's tests, which is A LOT!  
+For this build it is really important to filter, otherwise it will run all Unreal Engine's tests, which is A LOT!  
 You can add any filters you need as if:
 
 ```powershell
@@ -347,7 +347,7 @@ WIP
 
 ## 6. Other scripts
 
-A bunch of scripts can be used to helps you during your development session:
+A bunch of scripts can be used to help you during your development session:
 
 | Script                       | Usage                                                                                                                                                                                                                  |
 | :--------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -363,7 +363,7 @@ A bunch of scripts can be used to helps you during your development session:
 
 ### 7.1. Google Test App reports
 
-I choose to use [Xunit viewer](https://www.npmjs.com/package/xunit-viewer) 'cause (at the age of this repo creation):
+I choose to use [Xunit viewer](https://www.npmjs.com/package/xunit-viewer) because (at the age of this repo creation):
 
 -   it is actively maintain
 -   is the most advanced UI on npm
@@ -394,11 +394,11 @@ I choose to use [Xunit viewer](https://www.npmjs.com/package/xunit-viewer) 'caus
 
 ## 8. Contributing and Supporting
 
-I've decided to make all the code I developped for my games free to use and open source.  
+I've decided to make all the code I developed for my games free to use and open source.  
 I am a true believer in the mindset that sharing and collaborating makes the world a better place.  
 I'll be very glad if you decided to help me to follow my dream.
 
 | How?                                                                                                                                                                            |                                                                                         With                                                                                         |
 | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
-| **Donating**<br> Cause I'm an independant developper/creator and for now I don't have<br> any income, I need money to support my daily needs (coffeeeeee).                      | <a href="https://www.buymeacoffee.com/NansUE4" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-green.png" alt="Buy Me A Coffee" height="51" width="217" ></a> |
+| **Donating**<br> Because I'm an independant developer/creator and for now I don't have<br> any income, I need money to support my daily needs (coffeeeeee).                      | <a href="https://www.buymeacoffee.com/NansUE4" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-green.png" alt="Buy Me A Coffee" height="51" width="217" ></a> |
 | **Contributing**<br> You are very welcome if you want to contribute. I explain [here](./CONTRIBUTING.md) in details what<br> is the most comfortable way to me you can contribute. |                                                                         [CONTRIBUTING.md](./CONTRIBUTING.md)                                                                         |
