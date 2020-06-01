@@ -165,7 +165,7 @@ echo !ESC![36;1m-- Create reports
 echo !ESC![0m
 pushd "TestsReports/"
 for /f %%i in ('npm run server:id') do set serverId="%%i"
-if "!serverId!"=="[]" ( 
+if !serverId!=="[]" ( 
     rem ## Clean and reinstall server to display tests results (npm)
     call npm install
     call npm run server:clean

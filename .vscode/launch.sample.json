@@ -1,0 +1,10 @@
+{
+	"configurations": [
+		{
+			"name": "(Windows) Attach",
+			"type": "cppvsdbg",
+			"request": "attach",
+			"processId": "${command:pickProcess}"
+		}
+	]
+}

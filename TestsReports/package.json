@@ -13,7 +13,8 @@
         "server:list": "pm2 list",
         "server:clean": "pm2 delete all",
         "postinstall": "bower install",
-        "test": "jest"
+        "test": "jest",
+        "mergevs": "cross-env node mergeVscode.js"
     },
     "author": "Nans Pellicari",
     "license": "Apache-2.0",
@@ -27,6 +28,7 @@
         "bower": "^1.8.8",
         "chalk": "^4.0.0",
         "connect": "^3.7.0",
+        "merge-deep": "^3.0.2",
         "serve-static": "^1.14.1",
         "xml2json": "^0.12.0",
         "xunit-viewer": "^6.2.1"
