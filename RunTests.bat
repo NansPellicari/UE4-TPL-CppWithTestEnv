@@ -105,7 +105,10 @@ echo !ESC![0m
 
 rem ## If you use external plugins in your project, you can exlude them, just add anothers "--excluded_sources" parameters.
 rem ## see https://github.com/OpenCppCoverage/OpenCppCoverage/wiki/Command-line-reference
-set coverageCommand=OpenCppCoverage --sources=!ProjDirectory! --excluded_sources=!ProjDirectory!\Plugins\GoogleTest  --export_type=html:!ProjDirectory!\TestsReports\coverage\!build! --export_type=cobertura:!ProjDirectory!\TestsReports\coverage\!build!\coverage.xml
+rem ## We can't have a config files instead of this line because of the UE4's build which is run in a different path.
+rem ## This is why we have to pass an absolute path depends on your system conf using %ProjDirectory% var.
+set coverageCommand=OpenCppCoverage --sources=!ProjDirectory! --excluded_sources=!ProjDirectory!\Plugins\GoogleTest --excluded_sources=!ProjDirectory!\**\*.gen.cpp^
+--export_type=html:!ProjDirectory!\TestsReports\coverage\!build! --export_type=cobertura:!ProjDirectory!\TestsReports\coverage\!build!\coverage.xml
 set "buildCommand="
 set "testCommand="
 set dirToRun=!ProjDirectory!
