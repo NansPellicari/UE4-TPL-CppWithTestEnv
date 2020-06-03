@@ -1,0 +1,38 @@
+{
+	"tasks": [
+		{
+			"label": "GoogleApp Win64 Development Build",
+			"group": "build",
+			"command": "Engine\\Build\\BatchFiles\\Build.bat",
+			"args": [
+				"GoogleTestApp",
+				"Win64",
+				"Development",
+				"${workspaceFolder}\\GoogleTestApp.uproject",
+				"-waitmutex"
+			],
+			"problemMatcher": "$msCompile",
+			"type": "shell",
+			"options": {
+				"cwd": "${workspaceFolder:UE4}"
+			}
+		},
+		{
+			"label": "GoogleApp Win32 Development Build",
+			"group": "build",
+			"command": "Engine\\Build\\BatchFiles\\Build.bat",
+			"args": [
+				"GoogleTestApp",
+				"Win32",
+				"Development",
+				"${workspaceFolder}\\GoogleTestApp.uproject",
+				"-waitmutex"
+			],
+			"problemMatcher": "$msCompile",
+			"type": "shell",
+			"options": {
+				"cwd": "${workspaceFolder:UE4}"
+			}
+		}
+	]
+}

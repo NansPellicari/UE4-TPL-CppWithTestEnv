@@ -63,5 +63,12 @@ if exist ".\.vscode\launch.json" (
     popd
 )
 
+if exist ".\.vscode\tasks.json" (
+    pushd "TestsReports/"
+        call npm run mergevs ..\.vscode\tasks.json ..\.vscode\tasks.sample.json
+    popd
+)
+
+
 :Exit_Failure
 exit /b 3

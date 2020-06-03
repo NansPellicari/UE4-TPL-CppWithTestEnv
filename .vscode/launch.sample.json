@@ -5,6 +5,30 @@
 			"type": "cppvsdbg",
 			"request": "attach",
 			"processId": "${command:pickProcess}"
+        },
+		{
+			"name": "GoogleApp Win64 (Development)",
+			"request": "launch",
+			"preLaunchTask": "GoogleApp Win64 Development Build",
+			"program": "${workspaceFolder}\\Binaries\\Win64\\GoogleTestApp.exe",
+			"args": [],
+			"cwd": "${workspaceFolder:UE4}",
+			"stopAtEntry": false,
+			"externalConsole": true,
+			"type": "cppvsdbg",
+			"visualizerFile": "${workspaceFolder:UE4}\\Engine\\Extras\\VisualStudioDebugging\\UE4.natvis"
+		},
+		{
+			"name": "GoogleApp Win32 (Development)",
+			"request": "launch",
+			"preLaunchTask": "GoogleApp Win32 Development Build",
+			"program": "${workspaceFolder}\\Binaries\\Win32\\GoogleTestApp.exe",
+			"args": [],
+			"cwd": "${workspaceFolder:UE4}",
+			"stopAtEntry": false,
+			"externalConsole": true,
+			"type": "cppvsdbg",
+			"visualizerFile": "${workspaceFolder:UE4}\\Engine\\Extras\\VisualStudioDebugging\\UE4.natvis"
 		}
 	]
 }
