@@ -69,7 +69,6 @@ this project came to life!
 -   [OpenCppCoverage](https://github.com/OpenCppCoverage/OpenCppCoverage/wiki)
 -   [NodeJs](https://nodejs.org/en/download/)
 -   [Pm2](https://pm2.keymetrics.io/)
--   [jq](https://stedolan.github.io/jq/download/) (for vscode: use to merge json config files, see [GenerateProjectFiles.bat](./GenerateProjectFiles.bat))
 
 <a id="markdown-3-step-by-step-guide" name="3-step-by-step-guide"></a>
 
@@ -233,6 +232,8 @@ pm2 delete all
 
 ### 4.1. In VScode
 
+> When you run the script `.\GenerateProjectFiles.bat` it merge the data from `.vscode/tasks.sample.json` & `.vscode/launch.sample.json` to their respective generated config file. So if you want to add some defaults settings add them to the `.vscode/*.sample.json` files (they are versioned too).
+
 First add a build conf in `.vscode/tasks.json`:
 
 ```json
@@ -273,31 +274,6 @@ and debug configs in your `.vscode/launch.js`:
 			"externalConsole": true,
 			"type": "cppvsdbg",
 			"visualizerFile": "<yourUE4Path>\\Engine\\Extras\\VisualStudioDebugging\\UE4.natvis"
-		},
-		{
-			"name": "UE4 Light Editor (MyDebug)",
-			"request": "launch",
-			"preLaunchTask": "<YourProjectName>Editor Win64 Development Build",
-			"program": "<yourUE4Path>\\Engine\\Binaries\\Win64\\UE4Editor-Cmd.exe",
-			"args": [
-				"<YourProjectPath>\\UE4Timeline.uproject",
-				"-unattended",
-				"-nopause",
-				"-NullRHI",
-				// Change here test's filter you want to run instead of MyTest
-				"-ExecCmds=\"
-mation RunTests MyTest; quit\"",
-				"-TestExit=\"
-mation Test Queue Empty\"",
-				"-log",
-				"-log=RunTests.log",
-				"-ReportOutputPath=\"<YourProjectPath>\\TestsReports\\reports\\ue4\""
-			],
-			"cwd": "<yourUE4Path>",
-			"stopAtEntry": false,
-			"externalConsole": true,
-			"type": "cppvsdbg",
-			"visualizerFile": "<yourUE4Path>\\Engine\\Extras\\VisualStudioDebugging\\UE4.natvis"
 		}
 	]
 }
@@ -316,6 +292,8 @@ WIP
 <a id="markdown-51-vs-code" name="51-vs-code"></a>
 
 ### 5.1. VS Code
+
+> The same as in [Debug](#41-in-vscode) section, you can run the script `.\GenerateProjectFiles.bat` and `.vscode/settings.sample.json` will be merged to `.vscode/settings.json` file.
 
 To format on save and during edition, add this in your `.vscode/settings.json`:
 
@@ -353,7 +331,8 @@ A bunch of scripts can be used to help you during your development session:
 | :--------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `.\GeneratePlugins.bat`      | Copies files from the c++ Blank Project template in the Unreal Engine directory and rename it                                                                                                                          |
 | `.\Clean.bat`                | Removes all generated files and folder                                                                                                                                                                                 |
-| `.\GenerateProjectFiles.bat` | Uses `<ue4 rootpath>Engine\Binaries\DotNET\UnrealBuildTool.exe` to generate VS or VSCode files from the .uproject file + download npm dependencies in the TestsReports folder + clean and start nodejs report's server |
+| `.\GenerateProjectFiles.bat` | - Uses `Clean.bat` <br>- Uses `<ue4 rootpath>Engine\Binaries\DotNET\UnrealBuildTool.exe` to generate VS or VSCode files from the .uproject file<br>- Download npm dependencies in the TestsReports folder + clean and start nodejs report's server<br>- Merge `.vscode/*.sample.json` > generated `.vscode/*.json` files |
+| `.\Scripts\RenameFileAndContent.ps1`                | _(powershell file)_ In a given directory, change recursively files, folder, contents, from and to given names, usages:<br> `.\Scripts\RenameFileAndContent.ps1 .\Plugins\Dir\ AClassNameIWantToChange TheNewClassName`                                                                                                                                                                                 |
 
 <a id="markdown-7-what-does-it-look-like" name="7-what-does-it-look-like"></a>
 
