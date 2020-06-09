@@ -114,7 +114,7 @@ This will:
 This repo embeds [UE4-GoogleTest](https://github.com/NansPellicari/UE4-GoogleTest) plugins which is a **UE4 plugin**, a simple bridge for the [googletest](https://github.com/google/googletest) project.
 
 ```powershell
-git sumbmodule init
+git submodule init
 git submodule update --init --recursive
 ```
 

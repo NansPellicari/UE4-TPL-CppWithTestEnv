@@ -108,6 +108,7 @@ rem ## see https://github.com/OpenCppCoverage/OpenCppCoverage/wiki/Command-line-
 rem ## We can't have a config files instead of this line because of the UE4's build which is run in a different path.
 rem ## This is why we have to pass an absolute path depends on your system conf using %ProjDirectory% var.
 set coverageCommand=OpenCppCoverage --sources=!ProjDirectory! --excluded_sources=!ProjDirectory!\Plugins\GoogleTest --excluded_sources=!ProjDirectory!\**\*.gen.cpp ^
+--excluded_sources=!ProjDirectory!\**\Mock\** --excluded_sources=!ProjDirectory!\**\Specs\** ^
 --export_type=html:!ProjDirectory!\TestsReports\coverage\!build! --export_type=cobertura:!ProjDirectory!\TestsReports\coverage\!build!\coverage.xml
 set "buildCommand="
 set "testCommand="
