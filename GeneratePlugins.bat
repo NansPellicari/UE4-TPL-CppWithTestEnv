@@ -15,20 +15,24 @@ rem # limitations under the License.
 
 setlocal
 
-rem ## Get the OSVer version
-for /f "delims=" %%a in ('PowerShell.exe -Command "(Get-WmiObject Win32_OperatingSystem).OSArchitecture"') do (
-    set OSVer=%%a
-)
-set OSVer=%OSVer:~0,2%
+set PROJ_DIR=%~dp0
 
 rem ## to get the ESC character, used to colorized output
 for /F %%a in ('echo prompt $E ^| cmd') do set ESC=%%a
 
-for /f "delims=" %%a in ('PowerShell.exe -Command "%cd%\Scripts\GetConfig.ps1 'UE4PATH'"') do (
+
+rem ## Get the OS version
+for /f "delims=" %%a in ('PowerShell.exe -Command "(Get-WmiObject Win32_OperatingSystem).OSArchitecture"') do (
+    set OSver=%%a
+)
+set OSver=%OSver:~0,2%
+
+rem ## retrieve project settings
+for /f "delims=" %%a in ('PowerShell -NoProfile -ExecutionPolicy Bypass -Command "& '%PROJ_DIR%\Scripts\GetConfig.ps1' 'UE4PATH'"') do (
     set UE4PATH=%%a
 )
 
-for /f "delims=" %%a in ('PowerShell.exe -Command "%cd%\Scripts\GetConfig.ps1 'PROJECT'"') do (
+for /f "delims=" %%a in ('PowerShell -NoProfile -ExecutionPolicy Bypass -Command "& '%PROJ_DIR%\Scripts\GetConfig.ps1' 'PROJECT'"') do (
     set PROJECT=%%a
 )
 
@@ -37,9 +41,8 @@ if not exist "%UE4PATH%\Engine\Build\BatchFiles\Build.bat" (
     goto Exit_Failure
 )
 
-set projectPath=%~dp0
-set pluginPath="%projectPath%\Plugins"
-set projectFile=%projectPath%%PROJECT%.uproject
+set pluginPath="%PROJ_DIR%\Plugins"
+set projectFile=%PROJ_DIR%%PROJECT%.uproject
 
 if not exist "%projectFile%" (
     echo %ESC%[91mProject does not exists here: "%projectFile%"%ESC%[0m 
@@ -61,10 +64,10 @@ echo "your OS version: %OSVer%"
 echo -------------------------------
 echo %ESC%[0m
 
-PowerShell.exe -Command "%projectPath%\Scripts\GeneratePlugin.ps1 '%UE4PATH%/Engine/Plugins/Developer' '%template%' '%projectPath%' '%name%'"
+PowerShell -NoProfile -ExecutionPolicy Bypass -Command "& '%PROJ_DIR%\Scripts\GeneratePlugin.ps1' '%UE4PATH%/Engine/Plugins/Developer' '%template%' '%PROJ_DIR%' '%name%'"
 
 pushd "%UE4PATH%\Engine\Binaries\DotNET\"
-UnrealBuildTool.exe Development Win%OSVer% -TargetType=Editor -Plugin="%projectPath%\Plugins\%name%\%name%.uplugin" -Project="%projectFile%" -Progress -NoHotReloadFromIDE
+UnrealBuildTool.exe Development Win%OSVer% -TargetType=Editor -Plugin="%PROJ_DIR%\Plugins\%name%\%name%.uplugin" -Project="%projectFile%" -Progress -NoHotReloadFromIDE
 popd
 
 exit /b 0

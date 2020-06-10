@@ -15,7 +15,7 @@ rem # limitations under the License.
 
 setlocal enableDelayedExpansion
 
-set ProjDirectory="%cd%"
+set PROJ_DIR=%~dp0
 
 rem ## retrieve start date to show file's execution time at the end
 for /F "tokens=1-4 delims=:.," %%a in ("%time%") do (
@@ -32,10 +32,11 @@ for /f "delims=" %%a in ('PowerShell.exe -Command "(Get-WmiObject Win32_Operatin
 set OSver=%OSver:~0,2%
 
 rem ## retrieve project settings
-for /f "delims=" %%a in ('PowerShell.exe -Command "!ProjDirectory!\Scripts\GetConfig.ps1 'UE4PATH'"') do (
+for /f "delims=" %%a in ('PowerShell -NoProfile -ExecutionPolicy Bypass -Command "& '%PROJ_DIR%\Scripts\GetConfig.ps1' 'UE4PATH'"') do (
     set UE4PATH=%%a
 )
-for /f "delims=" %%a in ('PowerShell.exe -Command "!ProjDirectory!\Scripts\GetConfig.ps1 'PROJECT'"') do (
+
+for /f "delims=" %%a in ('PowerShell -NoProfile -ExecutionPolicy Bypass -Command "& '%PROJ_DIR%\Scripts\GetConfig.ps1' 'PROJECT'"') do (
     set PROJECT=%%a
 )
 
@@ -106,13 +107,17 @@ echo !ESC![0m
 rem ## If you use external plugins in your project, you can exlude them, just add anothers "--excluded_sources" parameters.
 rem ## see https://github.com/OpenCppCoverage/OpenCppCoverage/wiki/Command-line-reference
 rem ## We can't have a config files instead of this line because of the UE4's build which is run in a different path.
-rem ## This is why we have to pass an absolute path depends on your system conf using %ProjDirectory% var.
-set coverageCommand=OpenCppCoverage --sources=!ProjDirectory! --excluded_sources=!ProjDirectory!\Plugins\GoogleTest --excluded_sources=!ProjDirectory!\**\*.gen.cpp ^
---excluded_sources=!ProjDirectory!\**\Mock\** --excluded_sources=!ProjDirectory!\**\Specs\** ^
---export_type=html:!ProjDirectory!\TestsReports\coverage\!build! --export_type=cobertura:!ProjDirectory!\TestsReports\coverage\!build!\coverage.xml
+rem ## This is why we have to pass an absolute path depends on your system conf using %PROJ_DIR% var.
+set coverageCommand=OpenCppCoverage --sources=!PROJECT!* ^
+ --excluded_sources="**\Plugins\GoogleTest" ^
+ --excluded_sources="**\*.gen.cpp" ^
+ --excluded_sources="**\Mock\**" ^
+ --excluded_sources="**\Specs\**" ^
+--export_type=html:"!PROJ_DIR!\TestsReports\coverage\!build!" --export_type=cobertura:"!PROJ_DIR!\TestsReports\coverage\!build!\coverage.xml"
+
 set "buildCommand="
 set "testCommand="
-set dirToRun=!ProjDirectory!
+set dirToRun=!PROJ_DIR!
 
 set hh=!time:~0,2!
 if "!hh:~0,1!"==" " set hh=0!hh:~1,1!
@@ -122,19 +127,19 @@ set ss=!time:~6,2!
 if "!ss:~0,1!"==" " set ss=0!ss:~1,1!
 
 if "!build!"=="gg" (
-    set buildCommand=!UE4PATH!\Engine\Build\BatchFiles\Build.bat GoogleTestApp Win!OSver! Development "!ProjDirectory!\GoogleTestApp.uproject" -waitmutex
-    set testCommand=.\Binaries\Win64\GoogleTestApp.exe --gtest_output=xml:!ProjDirectory!/TestsReports/reports/gg/test-!date:~6,4!!date:~3,2!!date:~0,2!-!hh!!mm!!ss!.xml !extraParams!
-    set dirToRun="!ProjDirectory!"
+    set buildCommand=!UE4PATH!\Engine\Build\BatchFiles\Build.bat GoogleTestApp Win!OSver! Development "!PROJ_DIR!\GoogleTestApp.uproject" -waitmutex
+    set testCommand=.\Binaries\Win64\GoogleTestApp.exe --gtest_output=xml:"!PROJ_DIR!/TestsReports/reports/gg/test-!date:~6,4!!date:~3,2!!date:~0,2!-!hh!!mm!!ss!.xml" !extraParams!
+    set dirToRun="!PROJ_DIR!"
 )
 if "!build!"=="ue4" (
     rem ## This is my naming convention, Every *Core* module is only tested with GG tests,
     rem ## so to avoid uncovered lines which are covered elsewhere, I excluded them here.
     rem ## Change this line to adapt it on your naming convention.
     set coverageCommand=!coverageCommand! --excluded_modules=*Core*
-    set buildCommand=!UE4PATH!\Engine\Build\BatchFiles\Build.bat !PROJECT!Editor Win!OSver! Development "!ProjDirectory!\!PROJECT!.uproject" -waitmutex
+    set buildCommand=!UE4PATH!\Engine\Build\BatchFiles\Build.bat !PROJECT!Editor Win!OSver! Development "!PROJ_DIR!\!PROJECT!.uproject" -waitmutex
     set subcommand=Automation RunAll
     if "!extraParams!" neq "" ( set subcommand=Automation RunTests !extraParams! )
-    set testCommand=UE4Editor-Cmd.exe "!ProjDirectory!\!PROJECT!.uproject" -unattended -nopause -NullRHI -ExecCmds="!subcommand!; quit" -TestExit="Automation Test Queue Empty" -log -log=RunTests.log -ReportOutputPath="!ProjDirectory!\TestsReports\reports\ue4"
+    set testCommand=UE4Editor-Cmd.exe "!PROJ_DIR!\!PROJECT!.uproject" -unattended -nopause -NullRHI -ExecCmds="!subcommand!; quit" -TestExit="Automation Test Queue Empty" -log -log=RunTests.log -ReportOutputPath="!PROJ_DIR!\TestsReports\reports\ue4"
     set dirToRun="!UE4PATH!/Engine/Binaries/Win!OSver!"
 )
 
