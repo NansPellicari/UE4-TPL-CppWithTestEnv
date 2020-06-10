@@ -15,14 +15,17 @@ rem # limitations under the License.
 
 setlocal
 
+set PROJ_DIR=%~dp0
+
 rem ## to get the ESC character, used to colorized output
 for /F %%a in ('echo prompt $E ^| cmd') do set ESC=%%a
 
-for /f "delims=" %%a in ('PowerShell.exe -Command "%cd%\Scripts\GetConfig.ps1 'UE4PATH'"') do (
+rem ## retrieve project settings
+for /f "delims=" %%a in ('PowerShell -NoProfile -ExecutionPolicy Bypass -Command "& '%PROJ_DIR%\Scripts\GetConfig.ps1' 'UE4PATH'"') do (
     set UE4PATH=%%a
 )
 
-for /f "delims=" %%a in ('PowerShell.exe -Command "%cd%\Scripts\GetConfig.ps1 'PROJECT'"') do (
+for /f "delims=" %%a in ('PowerShell -NoProfile -ExecutionPolicy Bypass -Command "& '%PROJ_DIR%\Scripts\GetConfig.ps1' 'PROJECT'"') do (
     set PROJECT=%%a
 )
 
@@ -31,7 +34,7 @@ if not exist "%UE4PATH%\Engine\Build\BatchFiles\Build.bat" (
     goto Exit_Failure
 )
 
-set projectPath="%~dp0%PROJECT%.uproject"
+set projectPath=%PROJ_DIR%%PROJECT%.uproject
 
 if not exist "%projectPath%" (
     echo %ESC%[91mProject does not exists here: "%projectPath%"%ESC%[0m 

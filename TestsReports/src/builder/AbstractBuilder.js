@@ -29,7 +29,7 @@ class AbstractBuilder {
             try {
                 fs.writeFileSync(this.globalReportFile, "{}");
             } catch (e) {
-                throw new Error("Can not write file");
+                throw new Error(`Can not write file ${this.globalReportFile}`);
             }
         }
 

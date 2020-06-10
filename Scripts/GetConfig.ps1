@@ -46,5 +46,4 @@ if ($ConfigName -eq "UE4PATH") {
     (Get-Content $ConfFile) -replace 'UE4PATH=.*', "UE4PATH=$ConfigValue" | Set-Content $ConfFile
 }
 
-
 Write-Host $ConfigValue

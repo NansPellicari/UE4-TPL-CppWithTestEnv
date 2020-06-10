@@ -17,7 +17,7 @@ setlocal
 
 set PROJ_DIR=%~dp0
 
-for /f "delims=" %%a in ('PowerShell.exe -Command "%PROJ_DIR%\Scripts\GetConfig.ps1 'UE4PATH'"') do (
+for /f "delims=" %%a in ('PowerShell -NoProfile -ExecutionPolicy Bypass -Command "& '%PROJ_DIR%\Scripts\GetConfig.ps1' 'UE4PATH'"') do (
     set UE4PATH=%%a
 )
 
