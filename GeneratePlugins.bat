@@ -52,6 +52,7 @@ if not exist "%projectFile%" (
 set name=%~1
 set template=BlankPlugin
 if "%name%"=="-h" goto choices
+if "%name%"=="" goto choices
 
 rem ## Display user choices
 echo %ESC%[36m
@@ -77,6 +78,6 @@ exit /b 3
 
 :choices
 echo %ESC%[36m
-echo usage: .\GeneratePlugins.bat [-h] 'Name'
+echo usage: .\GeneratePlugins.bat [-h] 'MyPluginName'
 echo %ESC%[0m
 :end
