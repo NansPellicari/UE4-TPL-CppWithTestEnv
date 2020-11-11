@@ -1,3 +1,6 @@
 [submodule "Plugins/GoogleTest"]
     path = Plugins/GoogleTest
     url = https://github.com/NansPellicari/UE4-GoogleTest.git
+[submodule "Plugins/NansCoreHelpers"]
+	path = Plugins/NansCoreHelpers
+	url = https://github.com/NansPellicari/UE4-CoreHelpers.git
