@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #include "GoogleTestApp.h"
-
+#include "NansCoreHelpers/Public/Misc/NansAssertionMacros.h"
 #include "gtest/gtest.h"
 
 class FirstTest : public ::testing::Test
@@ -22,9 +22,17 @@ class FirstTest : public ::testing::Test
 
 TEST_F(FirstTest, ShouldTestTrue)
 {
-    ASSERT_TRUE(true);
+	ASSERT_TRUE(true);
 }
 TEST_F(FirstTest, ShouldTestFalse)
 {
-    ASSERT_FALSE(true);
+	ASSERT_FALSE(true);
+}
+
+int main(int argc, char** argv)
+{
+	::testing::InitGoogleTest(&argc, argv);
+	GIsGGTests = true;
+
+	return RUN_ALL_TESTS();
 }
