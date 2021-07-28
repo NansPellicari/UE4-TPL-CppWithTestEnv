@@ -1,4 +1,6 @@
 # UE4 template for c++ project with test environment
+<a id="markdown-ue4-template-for-c-project-with-test-environment" name="ue4-template-for-c-project-with-test-environment"></a>
+
 
 Launch your tests and code coverage with just **1** commandline + get nice reports!
 
@@ -12,71 +14,71 @@ Launch your tests and code coverage with just **1** commandline + get nice repor
 
 <!-- TOC -->
 
--   [1. Why?](#1-why)
--   [2. Requirements](#2-requirements)
--   [3. Step by step guide](#3-step-by-step-guide)
-    -   [3.1. Clone to a specific dir](#31-clone-to-a-specific-dir)
-    -   [3.2. Rename the project files](#32-rename-the-project-files)
-    -   [3.3. Get submodules](#33-get-submodules)
-    -   [3.4. Test](#34-test)
-        -   [3.4.1. Filter for UE4 build](#341-filter-for-ue4-build)
-        -   [3.4.2. Filters for GG build](#342-filters-for-gg-build)
-    -   [3.5. Coverage](#35-coverage)
-    -   [3.6. Go to your Dashboard](#36-go-to-your-dashboard)
-    -   [3.7. Reinstall git + git modules on your new git repository](#37-reinstall-git--git-modules-on-your-new-git-repository)
-    -   [3.8. Shutdown server](#38-shutdown-server)
--   [4. Debug](#4-debug)
-    -   [4.1. In VScode](#41-in-vscode)
-    -   [4.2. VS (Visual Studio)](#42-vs-visual-studio)
--   [5. Formatting](#5-formatting)
-    -   [5.1. VS Code](#51-vs-code)
-    -   [5.2. VS](#52-vs)
--   [6. Other scripts](#6-other-scripts)
--   [7. What does it look like?](#7-what-does-it-look-like)
-    -   [7.1. Google Test App reports](#71-google-test-app-reports)
-    -   [7.2. Google Test App Coverage](#72-google-test-app-coverage)
-    -   [7.3. UE4 reports](#73-ue4-reports)
-    -   [7.4. UE4 Coverage](#74-ue4-coverage)
--   [8. Contributing and Supporting](#8-contributing-and-supporting)
+- [1. Why?](#1-why)
+- [2. Requirements](#2-requirements)
+- [3. Step by step guide](#3-step-by-step-guide)
+    - [3.1. Clone to a specific dir](#31-clone-to-a-specific-dir)
+    - [3.2. Rename the project files](#32-rename-the-project-files)
+    - [3.3. Get submodules](#33-get-submodules)
+    - [3.4. Test](#34-test)
+        - [3.4.1. Filter for UE4 build](#341-filter-for-ue4-build)
+        - [3.4.2. Filters for GG build](#342-filters-for-gg-build)
+    - [3.5. Coverage](#35-coverage)
+    - [3.6. Go to your Dashboard](#36-go-to-your-dashboard)
+    - [3.7. Reinstall git + git modules on your new git repository](#37-reinstall-git--git-modules-on-your-new-git-repository)
+    - [3.8. Shutdown server](#38-shutdown-server)
+- [4. Debug](#4-debug)
+    - [4.1. In VScode](#41-in-vscode)
+    - [4.2. VS (Visual Studio)](#42-vs-visual-studio)
+- [5. Formatting](#5-formatting)
+    - [5.1. VS Code](#51-vs-code)
+    - [5.2. VS](#52-vs)
+- [6. Other scripts](#6-other-scripts)
+- [7. What does it look like?](#7-what-does-it-look-like)
+    - [7.1. Google Test App reports](#71-google-test-app-reports)
+    - [7.2. Google Test App Coverage](#72-google-test-app-coverage)
+    - [7.3. UE4 reports](#73-ue4-reports)
+    - [7.4. UE4 Coverage](#74-ue4-coverage)
+- [8. Contributing and Supporting](#8-contributing-and-supporting)
 
 <!-- /TOC -->
 
-<a id="markdown-1-why" name="1-why"></a>
-
 ## 1. Why?
+<a id="markdown-why" name="why"></a>
+
 
 My first needs were to:
 
--   improve my process of **proof concepting**
--   try to reduce the **UE4 tests build** duration
--   ensure quality to avoid regressions by **running tests frequently**
+* improve my process of **proof concepting**
+* try to reduce the **UE4 tests build** duration
+* ensure quality to avoid regressions by **running tests frequently**
 
 Then after reading this great series of articles, testing and guiding by its author @[ericlemes](https://github.com/ericlemes):
 
--   https://ericlemes.com/2018/12/12/unit-tests-in-unreal-pt-1/
--   https://ericlemes.com/2018/12/13/unit-tests-in-unreal-pt-2/
--   https://ericlemes.com/2018/12/17/unit-tests-in-unreal-pt-3/
+* https://ericlemes.com/2018/12/12/unit-tests-in-unreal-pt-1/
+* https://ericlemes.com/2018/12/13/unit-tests-in-unreal-pt-2/
+* https://ericlemes.com/2018/12/17/unit-tests-in-unreal-pt-3/
 
 this project came to life!
 
-<a id="markdown-2-requirements" name="2-requirements"></a>
-
 ## 2. Requirements
+<a id="markdown-requirements" name="requirements"></a>
 
--   [PowerShell](https://docs.microsoft.com/en-us/powershell/)
--   [Unreal Engine](https://github.com/EpicGames/UnrealEngine)
--   [UE4-GoogleTest](https://github.com/NansPellicari/UE4-GoogleTest) (but it is embeded as a gitmodule)
--   [OpenCppCoverage](https://github.com/OpenCppCoverage/OpenCppCoverage/wiki)
--   [NodeJs](https://nodejs.org/en/download/)
--   [Pm2](https://pm2.keymetrics.io/)
 
-<a id="markdown-3-step-by-step-guide" name="3-step-by-step-guide"></a>
+* [PowerShell](https://docs.microsoft.com/en-us/powershell/)
+* [Unreal Engine](https://github.com/EpicGames/UnrealEngine)
+* [UE4-GoogleTest](https://github.com/NansPellicari/UE4-GoogleTest) (but it is embeded as a gitmodule)
+* [OpenCppCoverage](https://github.com/OpenCppCoverage/OpenCppCoverage/wiki)
+* [NodeJs](https://nodejs.org/en/download/) **v12.16.1** use [NVM for windows](https://github.com/coreybutler/nvm-windows)
+* [Pm2](https://pm2.keymetrics.io/)
 
 ## 3. Step by step guide
+<a id="markdown-step-by-step-guide" name="step-by-step-guide"></a>
 
-<a id="markdown-31-clone-to-a-specific-dir" name="31-clone-to-a-specific-dir"></a>
 
 ### 3.1. Clone to a specific dir
+<a id="markdown-clone-to-a-specific-dir" name="clone-to-a-specific-dir"></a>
+
 
 ```powershell
 git clone git@github.com:NansPellicari/UE4-TPL-CppWithTestEnv.git MyNewGame
@@ -84,9 +86,9 @@ git clone git@github.com:NansPellicari/UE4-TPL-CppWithTestEnv.git MyNewGame
 cd MyNewGame
 ```
 
-<a id="markdown-32-rename-the-project-files" name="32-rename-the-project-files"></a>
-
 ### 3.2. Rename the project files
+<a id="markdown-rename-the-project-files" name="rename-the-project-files"></a>
+
 
 ```powershell
 .\ChangeProjectName.bat 'MyNewGame'
@@ -101,15 +103,15 @@ cd MyNewGame
 
 This will:
 
--   clean all unnecessary files and folders (if exists: Binaries, Saved,...)
--   prompt you to set the **UE4 root path**
--   rename all `MyProject` files & folders
--   change all `MyProject` occurences in `./Source/`, `./Config/` and `./TestsReports/` directories.
--   generate Project Files (for VS or VScode)
-
-<a id="markdown-33-get-submodules" name="33-get-submodules"></a>
+* clean all unnecessary files and folders (if exists: Binaries, Saved, ...)
+* prompt you to set the **UE4 root path**
+* rename all `MyProject` files & folders
+* change all `MyProject` occurences in `./Source/`,  `./Config/` and `./TestsReports/` directories.
+* generate Project Files (for VS or VScode)
 
 ### 3.3. Get submodules
+<a id="markdown-get-submodules" name="get-submodules"></a>
+
 
 This repo embeds [UE4-GoogleTest](https://github.com/NansPellicari/UE4-GoogleTest) plugins which is a **UE4 plugin**, a simple bridge for the [googletest](https://github.com/google/googletest) project.
 
@@ -118,9 +120,9 @@ git submodule init
 git submodule update --init --recursive
 ```
 
-<a id="markdown-34-test" name="34-test"></a>
-
 ### 3.4. Test
+<a id="markdown-test" name="test"></a>
+
 
 Run all tests to check if all is well configure.
 
@@ -132,16 +134,16 @@ Run all tests to check if all is well configure.
 # otherwise it launches every UE4 tests
 ```
 
-> Each run will **build** using the UE4 builder. `gg`: a **program** build, `ue4`: an **editor** build.  
+> Each run will **build** using the UE4 builder. `gg` : a **program** build, `ue4` : an **editor** build.  
 > It means that the first time they are launch, they'll take time to build.  
 > But on next runs you'll see how fast they are, it is such a pleasure :relaxed:  
 > Special winner is the `gg` build :heart_eyes:
 
-For the both builds (`ue4` or `gg`), you can filter **tests** to run.
-
-<a id="markdown-341-filter-for-ue4-build" name="341-filter-for-ue4-build"></a>
+For the both builds ( `ue4` or `gg` ), you can filter **tests** to run.
 
 #### 3.4.1. Filter for UE4 build
+<a id="markdown-filter-for-ue4-build" name="filter-for-ue4-build"></a>
+
 
 For this build it is really important to filter, otherwise it will run all Unreal Engine's tests, which is A LOT!  
 You can add any filters you need as if:
@@ -150,11 +152,11 @@ You can add any filters you need as if:
 .\RunTests.bat -b ue4 MyNewGame MyPlugin.Core
 ```
 
-> this will call `UE4Editor-Cmd.exe` with this parameter `-ExecCmds=" mation RunTests MyNewGame+MyPlugin.Core; quit"`
-
-<a id="markdown-342-filters-for-gg-build" name="342-filters-for-gg-build"></a>
+> this will call `UE4Editor-Cmd.exe` with this parameter `-ExecCmds=" mation RunTests MyNewGame+MyPlugin. Core; quit"`
 
 #### 3.4.2. Filters for GG build
+<a id="markdown-filters-for-gg-build" name="filters-for-gg-build"></a>
+
 
 Use params as [google test](https://github.com/google/googletest/blob/master/googletest/docs/advanced.md#selecting-tests) defined.
 
@@ -164,9 +166,9 @@ Use params as [google test](https://github.com/google/googletest/blob/master/goo
 
 > to list test names: `.\RunTests.bat -b gg --gtest_list_tests`
 
-<a id="markdown-35-coverage" name="35-coverage"></a>
-
 ### 3.5. Coverage
+<a id="markdown-coverage" name="coverage"></a>
+
 
 Just add `-c` option:
 
@@ -175,9 +177,9 @@ Just add `-c` option:
 .\RunTests.bat -c -b ue4 MyNewGame
 ```
 
-<a id="markdown-36-go-to-your-dashboard" name="36-go-to-your-dashboard"></a>
-
 ### 3.6. Go to your Dashboard
+<a id="markdown-go-to-your-dashboard" name="go-to-your-dashboard"></a>
+
 
 I use [node](https://nodejs.org/en/download/) and [pm2](https://pm2.keymetrics.io/) to create a simple server which display all tests reports and coverages in one **dashboard**.  
 Find it at `http://localhost:9999/` to see last results in a glimpse.  
@@ -185,9 +187,9 @@ Each block is a link to the more detailed reports page (see section **What does 
 
 ![Dashboard](./Docs/dashboard.png)
 
-<a id="markdown-37-reinstall-git--git-modules-on-your-new-git-repository" name="37-reinstall-git--git-modules-on-your-new-git-repository"></a>
-
 ### 3.7. Reinstall git + git modules on your new git repository
+<a id="markdown-reinstall-git--git-modules-on-your-new-git-repository" name="reinstall-git--git-modules-on-your-new-git-repository"></a>
+
 
 ```powershell
 rd .\git\
@@ -209,9 +211,9 @@ git config master.remote origin
 git config master.merge refs/heads/master
 ```
 
-<a id="markdown-38-shutdown-server" name="38-shutdown-server"></a>
-
 ### 3.8. Shutdown server
+<a id="markdown-shutdown-server" name="shutdown-server"></a>
+
 
 Don't forget to shutdown server when you don't use it or if you switch to other project.
 
@@ -224,17 +226,17 @@ npm run server:clean
 pm2 delete all
 ```
 
-<a id="markdown-4-debug" name="4-debug"></a>
-
 ## 4. Debug
+<a id="markdown-debug" name="debug"></a>
 
-<a id="markdown-41-in-vscode" name="41-in-vscode"></a>
 
 ### 4.1. In VScode
+<a id="markdown-in-vscode" name="in-vscode"></a>
+
 
 > When you run the script `.\GenerateProjectFiles.bat` it merge the data from `.vscode/tasks.sample.json` & `.vscode/launch.sample.json` to their respective generated config file. So if you want to add some defaults settings add them to the `.vscode/*.sample.json` files (they are versioned too).
 
-First add a build conf in `.vscode/tasks.json`:
+First add a build conf in `.vscode/tasks.json` :
 
 ```json
 {
@@ -256,7 +258,7 @@ First add a build conf in `.vscode/tasks.json`:
 }
 ```
 
-and debug configs in your `.vscode/launch.js`:
+and debug configs in your `.vscode/launch.js` :
 
 ```json
 {
@@ -279,23 +281,23 @@ and debug configs in your `.vscode/launch.js`:
 }
 ```
 
-<a id="markdown-42-vs-visual-studio" name="42-vs-visual-studio"></a>
-
 ### 4.2. VS (Visual Studio)
+<a id="markdown-vs-visual-studio" name="vs-visual-studio"></a>
+
 
 WIP
 
-<a id="markdown-5-formatting" name="5-formatting"></a>
-
 ## 5. Formatting
+<a id="markdown-formatting" name="formatting"></a>
 
-<a id="markdown-51-vs-code" name="51-vs-code"></a>
 
 ### 5.1. VS Code
+<a id="markdown-vs-code" name="vs-code"></a>
+
 
 > The same as in [Debug](#41-in-vscode) section, you can run the script `.\GenerateProjectFiles.bat` and `.vscode/settings.sample.json` will be merged to `.vscode/settings.json` file.
 
-To format on save and during edition, add this in your `.vscode/settings.json`:
+To format on save and during edition, add this in your `.vscode/settings.json` :
 
 ```json
 {
@@ -304,7 +306,7 @@ To format on save and during edition, add this in your `.vscode/settings.json`:
 }
 ```
 
-To make the formatter (I use [prettier](https://github.com/prettier/prettier-vscode)) recognize the json format for `.uproject` and `.plugin` files (but It should be placed on the **user** or **workspace** `settings.json`, see [this](https://github.com/prettier/prettier-vscode/issues/606#issuecomment-578085675)):
+To make the formatter (I use [prettier](https://github.com/prettier/prettier-vscode)) recognize the json format for `.uproject` and `.plugin` files (but It should be placed on the **user** or **workspace** `settings.json` , see [this](https://github.com/prettier/prettier-vscode/issues/606#issuecomment-578085675)):
 
 ```json
 {
@@ -315,63 +317,63 @@ To make the formatter (I use [prettier](https://github.com/prettier/prettier-vsc
 }
 ```
 
-<a id="markdown-52-vs" name="52-vs"></a>
-
 ### 5.2. VS
+<a id="markdown-vs" name="vs"></a>
+
 
 WIP
 
-<a id="markdown-6-other-scripts" name="6-other-scripts"></a>
-
 ## 6. Other scripts
+<a id="markdown-other-scripts" name="other-scripts"></a>
+
 
 A bunch of scripts can be used to help you during your development session:
 
 | Script                       | Usage                                                                                                                                                                                                                  |
 | :--------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `.\GeneratePlugins.bat`      | Copies files from the c++ Blank Project template in the Unreal Engine directory and rename it                                                                                                                          |
-| `.\Clean.bat`                | Removes all generated files and folder                                                                                                                                                                                 |
+| `.\GeneratePlugins.bat` | Copies files from the c++ Blank Project template in the Unreal Engine directory and rename it                                                                                                                          |
+| `.\Clean.bat` | Removes all generated files and folder                                                                                                                                                                                 |
 | `.\GenerateProjectFiles.bat` | - Uses `Clean.bat` <br>- Uses `<ue4 rootpath>Engine\Binaries\DotNET\UnrealBuildTool.exe` to generate VS or VSCode files from the .uproject file<br>- Download npm dependencies in the TestsReports folder + clean and start nodejs report's server<br>- Merge `.vscode/*.sample.json` > generated `.vscode/*.json` files |
-| `.\Scripts\RenameFileAndContent.ps1`                | _(powershell file)_ In a given directory, change recursively files, folder, contents, from and to given names, usages:<br> `.\Scripts\RenameFileAndContent.ps1 .\Plugins\Dir\ AClassNameIWantToChange TheNewClassName`                                                                                                                                                                                 |
-
-<a id="markdown-7-what-does-it-look-like" name="7-what-does-it-look-like"></a>
+| `.\Scripts\RenameFileAndContent.ps1` | _(powershell file)_ In a given directory, change recursively files, folder, contents, from and to given names, usages:<br> `.\Scripts\RenameFileAndContent.ps1 .\Plugins\Dir\ AClassNameIWantToChange TheNewClassName` |
 
 ## 7. What does it look like?
+<a id="markdown-what-does-it-look-like" name="what-does-it-look-like"></a>
 
-<a id="markdown-71-google-test-app-reports" name="71-google-test-app-reports"></a>
 
 ### 7.1. Google Test App reports
+<a id="markdown-google-test-app-reports" name="google-test-app-reports"></a>
+
 
 I choose to use [Xunit viewer](https://www.npmjs.com/package/xunit-viewer) because (at the age of this repo creation):
 
--   it is actively maintain
--   is the most advanced UI on npm
+* it is actively maintain
+* is the most advanced UI on npm
 
 ![Xunit viewer](./Docs/dashboard-gg-xunit-viewer.png)
 
-<a id="markdown-72-google-test-app-coverage" name="72-google-test-app-coverage"></a>
-
 ### 7.2. Google Test App Coverage
+<a id="markdown-google-test-app-coverage" name="google-test-app-coverage"></a>
+
 
 ![OpenCppCoverage view](./Docs/dashboard-gg-open-cpp-coverage.png)
 
-<a id="markdown-73-ue4-reports" name="73-ue4-reports"></a>
-
 ### 7.3. UE4 reports
+<a id="markdown-ue4-reports" name="ue4-reports"></a>
+
 
 ![Junit viewer](./Docs/dashboard-ue4-junit.png)
 
-<a id="markdown-74-ue4-coverage" name="74-ue4-coverage"></a>
-
 ### 7.4. UE4 Coverage
+<a id="markdown-ue4-coverage" name="ue4-coverage"></a>
+
 
 ![OpenCppCoverage view](./Docs/dashboard-ue4-open-cpp-coverage.png)
 
 [License Apache-2.0](./LICENSE.md)
 
-<a id="markdown-8-contributing-and-supporting" name="8-contributing-and-supporting"></a>
-
 ## 8. Contributing and Supporting
+<a id="markdown-contributing-and-supporting" name="contributing-and-supporting"></a>
+
 
 I've decided to make all the code I developed for my games free to use and open source.  
 I am a true believer in the mindset that sharing and collaborating makes the world a better place.  
