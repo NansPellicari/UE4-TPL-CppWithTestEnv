@@ -126,11 +126,14 @@ if "!mm:~0,1!"==" " set mm=0!mm:~1,1!
 set ss=!time:~6,2!
 if "!ss:~0,1!"==" " set ss=0!ss:~1,1!
 
+for /f "usebackq" %%i in (`PowerShell ^(Get-Date^).ToString^('yyyy-MM-dd'^)`) do set DTime=%%i
+
 if "!build!"=="gg" (
     set buildCommand=!UE4PATH!\Engine\Build\BatchFiles\Build.bat GoogleTestApp Win!OSver! Development "!PROJ_DIR!\GoogleTestApp.uproject" -waitmutex
-    set testCommand=.\Binaries\Win64\GoogleTestApp.exe --gtest_output=xml:"!PROJ_DIR!/TestsReports/reports/gg/test-!date:~6,4!!date:~3,2!!date:~0,2!-!hh!!mm!!ss!.xml" !extraParams!
+    set testCommand=.\Binaries\Win64\GoogleTestApp.exe --gtest_output=xml:!PROJ_DIR!/TestsReports/reports/gg/test-%DTime%_%hh%%mm%%ss%.xml %extraParams%
     set dirToRun="!PROJ_DIR!"
 )
+
 if "!build!"=="ue4" (
     rem ## This is my naming convention, Every *Core* module is only tested with GG tests,
     rem ## so to avoid uncovered lines which are covered elsewhere, I excluded them here.
