@@ -108,12 +108,13 @@ rem ## If you use external plugins in your project, you can exlude them, just ad
 rem ## see https://github.com/OpenCppCoverage/OpenCppCoverage/wiki/Command-line-reference
 rem ## We can't have a config files instead of this line because of the UE4's build which is run in a different path.
 rem ## This is why we have to pass an absolute path depends on your system conf using %PROJ_DIR% var.
-set coverageCommand=OpenCppCoverage --sources=!PROJECT!* ^
+set coverageCommand=OpenCppCoverage ^
+ --sources=!PROJ_DIR!* ^
  --excluded_sources="**\Plugins\GoogleTest" ^
  --excluded_sources="**\*.gen.cpp" ^
  --excluded_sources="**\Mock\**" ^
  --excluded_sources="**\Specs\**" ^
---export_type=html:"!PROJ_DIR!\TestsReports\coverage\!build!" --export_type=cobertura:"!PROJ_DIR!\TestsReports\coverage\!build!\coverage.xml"
+ --export_type=html:"!PROJ_DIR!\TestsReports\coverage\!build!" --export_type=cobertura:"!PROJ_DIR!\TestsReports\coverage\!build!\coverage.xml"
 
 set "buildCommand="
 set "testCommand="
@@ -142,7 +143,7 @@ if "!build!"=="ue4" (
     set buildCommand=!UE4PATH!\Engine\Build\BatchFiles\Build.bat !PROJECT!Editor Win!OSver! Development "!PROJ_DIR!\!PROJECT!.uproject" -waitmutex
     set subcommand=Automation RunAll
     if "!extraParams!" neq "" ( set subcommand=Automation RunTests !extraParams! )
-    set testCommand=UE4Editor-Cmd.exe "!PROJ_DIR!\!PROJECT!.uproject" -unattended -nopause -NullRHI -ExecCmds="!subcommand!; quit" -TestExit="Automation Test Queue Empty" -log -log=RunTests.log -ReportOutputPath="!PROJ_DIR!\TestsReports\reports\ue4"
+    set testCommand=UE4Editor-Cmd.exe "!PROJ_DIR!\!PROJECT!.uproject" -unattended -nopause -NullRHI -ExecCmds="!subcommand!; quit" -TestExit="Automation Test Queue Empty" -log -log=RunTests.log -ReportExportPath="!PROJ_DIR!\TestsReports\reports\ue4"
     set dirToRun="!UE4PATH!/Engine/Binaries/Win!OSver!"
 )
 
