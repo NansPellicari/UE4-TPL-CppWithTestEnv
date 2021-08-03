@@ -4,3 +4,6 @@
 [submodule "Plugins/NansCoreHelpers"]
 	path = Plugins/NansCoreHelpers
 	url = https://github.com/NansPellicari/UE4-CoreHelpers.git
+[submodule "Plugins/NansUE4TestsHelpers"]
+	path = Plugins/NansUE4TestsHelpers
+	url = https://github.com/NansPellicari/UE4-TestsHelpers.git
