@@ -46,4 +46,24 @@ if ($ConfigName -eq "UE4PATH") {
     (Get-Content $ConfFile) -replace 'UE4PATH=.*', "UE4PATH=$ConfigValue" | Set-Content $ConfFile
 }
 
+if ($line -ne $null) {
+    $ConfigValue = $line.Split('=')[1]
+    
+    if ($ConfigName -eq "PLUGINSPATH") {
+        $exists = Test-Path $ConfigValue
+    }
+}
+
+if ($ConfigName -eq "PLUGINSPATH") {
+    if (!$exists)
+    {
+        Do{
+            Write-Warning "Path $ConfigValue is not valid"
+            $ConfigValue = Read-Host -Prompt 'Enter plugins compilation path: '
+            $exists = Test-Path $ConfigValue
+        } Until($ConfigValue -ne $null -And $ConfigValue -ne "" -And $exists -ne 0)
+    }
+    (Get-Content $ConfFile) -replace 'PLUGINSPATH=.*', "PLUGINSPATH=$ConfigValue" | Set-Content $ConfFile
+}
+
 Write-Host $ConfigValue
